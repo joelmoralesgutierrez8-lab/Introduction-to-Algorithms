@@ -1,0 +1,3303 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[letterpaper,margin=20mm,headheight=15pt]{geometry}
+\usepackage{charter}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{ipnguinda}{HTML}{6B1D36}
+\definecolor{ipnblue}{HTML}{1E3A5F}
+\definecolor{codebg}{HTML}{F4F6F8}
+\definecolor{codeborder}{HTML}{CBD5E1}
+\definecolor{codegreen}{HTML}{15803D}
+\definecolor{codepurple}{HTML}{7E22CE}
+\definecolor{textdark}{HTML}{1F2937}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ipnguinda,
+    urlcolor=ipnblue,
+    citecolor=ipnguinda,
+    pdftitle={Algoritmos y Estructuras de Datos - IPN ISC-2020},
+    pdfauthor={Joel Morales Gutierrez}
+}
+
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+\newcommand{\paddingbox}[1]{\fboxsep=6pt\relax#1}
+
+\lstdefinestyle{cppstyle}{
+    backgroundcolor=\color{codebg},
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{ipnguinda}\bfseries,
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize\color{textdark},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=6pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=leftline,
+    framerule=2.5pt,
+    rulecolor=\color{ipnguinda},
+    xleftmargin=12pt,
+    xrightmargin=4pt,
+    aboveskip=6pt,
+    belowskip=6pt
+}
+\lstset{style=cppstyle}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\color{gray}IPN | Ciencia de Datos}
+\fancyhead[R]{\footnotesize\color{gray}Algoritmos y Estructuras de Datos (Programa ISC-2020)}
+\fancyfoot[L]{\footnotesize\color{gray}Joel Morales Guti\'errez (2DM1)}
+\fancyfoot[R]{\footnotesize\color{gray}P\'agina \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\renewcommand{\contentsname}{\color{ipnguinda}\'Indice General de Contenidos (Programa IPN ISC-2020)}
+
+\begin{document}
+
+% ==================== PORTADA INSTITUCIONAL IPN ====================
+\begin{titlepage}
+\centering
+\vspace*{0.8cm}
+\textcolor{ipnguinda}{\rule{\linewidth}{4pt}}\\[3pt]
+\textcolor{ipnblue}{\rule{\linewidth}{1pt}}
+
+\vspace{1.5cm}
+{\huge\bfseries\color{ipnguinda} INSTITUTO POLIT\'ECNICO NACIONAL\par}
+\vspace{0.35cm}
+{\large\bfseries\color{ipnblue} SECRETAR\'IA ACAD\'EMICA \\ DIRECCI\'ON DE EDUCACI\'ON SUPERIOR\par}
+\vspace{0.5cm}
+{\Large\scshape\color{textdark} Licenciatura en Ciencia de Datos\par}
+
+\vspace{1.2cm}
+\textcolor{ipnguinda}{\rule{0.78\linewidth}{1.5pt}}
+\vspace{0.9cm}
+
+{\Huge\bfseries\color{textdark} Algoritmos y Estructuras de Datos\par}
+\vspace{0.45cm}
+{\large\itshape\color{ipnblue} Manual T\'ecnico Completo, An\'alisis de Complejidad Asint\'otica \\ e Implementaciones Profesionales en C++ (Programa ISC-2020)\par}
+
+\vspace{0.9cm}
+\textcolor{ipnguinda}{\rule{0.78\linewidth}{1.5pt}}
+
+\vspace{2.2cm}
+{\Large\bfseries\color{textdark} MORALES GUTI\'ERREZ JOEL\par}
+\vspace{0.35cm}
+{\large\bfseries\color{ipnblue} Grupo: 2DM1\par}
+
+\vfill
+{\normalsize\scshape\color{ipnguinda} Ciencia de Datos --- Instituto Polit\'ecnico Nacional\par}
+\vspace{0.2cm}
+{\small\color{gray} Puebla, Pue. $\mid$ 2026\par}
+\vspace{0.8cm}
+\textcolor{ipnblue}{\rule{\linewidth}{1pt}}\\[3pt]
+\textcolor{ipnguinda}{\rule{\linewidth}{4pt}}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+\newpage
+\noindent\colorbox{ipnguinda!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{6pt}\textbf{\color{ipnblue}\small UNIDAD TEMÁTICA I}\\[4pt]\textbf{\color{ipnguinda}\LARGE Algoritmos Fundamentales}\\[6pt]\textbf{\color{ipnblue}Unidad de Competencia (Programa Oficial IPN ISC-2020):} \textit{Identifica algoritmos fundamentales de la computación con base en sus órdenes de complejidad.}\vspace{6pt}}}\vspace{10pt}
+\addcontentsline{toc}{part}{UNIDAD TEMÁTICA I: Algoritmos Fundamentales}
+\section*{1.1 Algoritmia}
+\addcontentsline{toc}{section}{1.1 Algoritmia}
+La algoritmia es la disciplina formal de la ciencia de la computación que estudia el diseño, análisis matemático, evaluación de eficiencia e implementación de algoritmos y estructuras de datos para resolver problemas computacionales de manera sistemática y reproducible.\par
+Formalmente, un algoritmo (según Cormen et al., Introduction to Algorithms, y Aho, Hopcroft \& Ullman) es una secuencia finita y ordenada de instrucciones computacionales bien definidas que toma un conjunto de valores como entrada (input) y produce, en un tiempo finito y con una cantidad finita de esfuerzo computacional, un conjunto de valores como salida (output), estableciendo una transformación verificable entre el dominio de las instancias válidas y la solución requerida.\par
+\subsection*{1.1.1 Características de los algoritmos y tipos}
+\addcontentsline{toc}{subsection}{1.1.1 Características de los algoritmos y tipos}
+Para que un procedimiento computacional sea catalogado rigurosamente como un algoritmo válido, debe satisfacer seis propiedades formales indispensables:\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Precisión (Determinismo local): }Cada instrucción debe poseer una semántica unívoca y libre de ambigüedades, especificando con exactitud la transición de estado en cada paso.
+  \item \textbf{Finitud (Terminación garantizada): }El algoritmo debe detenerse obligatoriamente tras ejecutar un número finito de pasos elementales para cualquier instancia de entrada válida, evitando ciclos infinitos.
+  \item \textbf{Entrada (Input): }Recibe cero o más datos externos pertenecientes a un dominio formalmente especificado antes o durante la ejecución.
+  \item \textbf{Salida (Output): }Produce al menos una cantidad o estructura de datos resultante que guarda una relación funcional exacta con las entradas suministradas.
+  \item \textbf{Efectividad (Viabilidad mecánica): }Cada operación debe ser suficientemente elemental para que un agente computacional pueda ejecutarla de manera exacta en un tiempo finito.
+  \item \textbf{Correctitud (Parcial y Total): }Alcanza correctitud parcial si siempre que termina entrega la respuesta válida para la precondición dada, y correctitud total si además garantiza su terminación (finitud).
+\end{itemize}
+\subsubsection*{Clasificación Taxonómica de los Algoritmos}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.208\linewidth}>{\raggedright\arraybackslash}p{0.318\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Criterio de Clasificación} & \textbf{\color{ipnguinda}Categoría / Paradigma} & \textbf{\color{ipnguinda}Principio Técnico y Comportamiento Operativo} & \textbf{\color{ipnguinda}Ejemplos Clásicos} \\
+\midrule
+\textbf{Flujo de Control} & Iterativos & Repiten bloques de instrucciones mediante lazos (for, while) actualizando variables de estado en espacio O(1). & Búsqueda secuencial, Insertion Sort, criba de Eratóstenes \\
+\addlinespace[3pt]
+\textbf{Flujo de Control} & Recursivos & Se autoinvocan reduciendo la dimensión del problema hacia uno o más casos base utilizando la pila de llamadas (Call Stack). & Torres de Hanoi, recorridos DFS en árboles, Merge Sort \\
+\addlinespace[3pt]
+\textbf{Técnica de Diseño} & Dividir para Vencer (Divide \& Conquer) & Particiona el problema en subproblemas disjuntos, los resuelve recursivamente y combina sus resultados. & Merge Sort, QuickSort, Búsqueda Binaria, Karatsuba \\
+\addlinespace[3pt]
+\textbf{Técnica de Diseño} & Ávidos / Voraces (Greedy) & Elige en cada etapa la decisión localmente óptima bajo una propiedad de elección voraz y subestructura óptima. & Dijkstra, Kruskal, Prim, codificación de Huffman \\
+\addlinespace[3pt]
+\textbf{Técnica de Diseño} & Programación Dinámica & Resuelve subproblemas superpuestos una sola vez almacenando soluciones intermedias en tablas (memoización/tabulación). & Floyd-Warshall, Bellman-Ford, Mochila 0/1, LCS \\
+\addlinespace[3pt]
+\textbf{Técnica de Diseño} & Exploración y Vuelta Atrás (Backtracking) & Recorre incrementalmente un árbol de estados aplicando funciones de poda (pruning) ante restricciones violadas. & Problema de las N-Reinas, Sudoku, coloreado de grafos \\
+\addlinespace[3pt]
+\textbf{Certidumbre} & Deterministas vs. Aleatorizados & Los deterministas siguen una única trayectoria por entrada; los estocásticos usan distribuciones aleatorias (Las Vegas / Monte Carlo). & QuickSort con pivote aleatorio, test de primalidad Miller-Rabin \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Comparativa de Flujo Iterativo vs. Recursivo (Cálculo del Máximo Común Divisor - Algoritmo de Euclides)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stdexcept>
+
+// 1. Implementacion Iterativa: Complejidad Temporal O(log(min(a,b))), Espacial O(1)
+long long mcdIterativo(long long a, long long b) {
+    a = std::abs(a);
+    b = std::abs(b);
+    while (b != 0) {
+        long long residuo = a % b;
+        a = b;
+        b = residuo;
+    }
+    return a;
+}
+
+// 2. Implementacion Recursiva: Complejidad Temporal O(log(min(a,b))), Espacial O(log(min(a,b)))
+long long mcdRecursivo(long long a, long long b) {
+    a = std::abs(a);
+    b = std::abs(b);
+    if (b == 0) {
+        return a; // Caso base que garantiza la propiedad de finitud
+    }
+    return mcdRecursivo(b, a % b); // Paso recursivo (Tail Recursion)
+}
+
+int main() {
+    long long x = 1071, y = 462;
+    std::cout << "MCD Iterativo (" << x << ", " << y << ") = " << mcdIterativo(x, y) << "\n";
+    std::cout << "MCD Recursivo (" << x << ", " << y << ") = " << mcdRecursivo(x, y) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Invariante matemático e identidad de Euclides: }Ambas funciones implementan la identidad mcd(a, b) = mcd(b, a mod b). Dado que en cada dos pasos el operando se reduce al menos a la mitad, el número de divisiones está acotado por el Teorema de Lamé en O(log(min(a, b))).
+  \item \textbf{Eficiencia espacial en mcdIterativo: }Reutiliza los registros escalares a, b y residuo dentro de un único marco de activación, logrando memoria auxiliar estricta $\Theta$(1).
+  \item \textbf{Recursión de cola en mcdRecursivo: }La llamada recursiva es la última operación evaluada antes del retorno (tail call). Con optimización de compilador (-O2), el compilador transforma esta llamada en un salto iterativo evitando el consumo de O(log n) marcos en el Call Stack.
+\end{itemize}
+\subsection*{1.1.2 Representación de algoritmos en pseudocódigo}
+\addcontentsline{toc}{subsection}{1.1.2 Representación de algoritmos en pseudocódigo}
+La representación de algoritmos en pseudocódigo emplea la metodología de diseño descendente por refinamiento sucesivo (stepwise refinement, introducida por Niklaus Wirth). Este estándar académico expresa la lógica algorítmica con rigor matemático e independencia sintáctica del lenguaje de programación final.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Formulación y Especificación Formal: }Delimitación matemática de los parámetros de entrada (Precondición P) y de las propiedades exigidas al resultado (Postcondición Q).
+  \item \textbf{2. Convenciones Sintácticas Estructuradas: }Uso del operador de asignación explícito ($\leftarrow$ o :=), estructuras selectivas (si...entonces...sino), iterativas (mientras, para, repetir...hasta) e indexación de arreglos A[1..n] o A[0..n-1].
+  \item \textbf{3. Modularización y Abstracción de TADs: }Encapsulamiento de subtareas en procedimientos y funciones con paso de parámetros por valor (in) o referencia (ref / var).
+  \item \textbf{4. Verificación mediante Invariantes de Bucle: }Demostración formal de correctitud en tres etapas: Inicialización (verdadero antes de la primera iteración), Mantenimiento (si es verdadero antes de la iteración, permanece verdadero después) y Terminación (al salir del bucle implica la postcondición).
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Traducción de Pseudocódigo Formal con Aserciones de Invariante a C++ (Evaluación Polinomial de Horner)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <cassert>
+
+/*
+ * Pseudocodigo Formal: HORNER(A[0..n], x)
+ * Precondicion: A contiene n+1 coeficientes reales; representa P(x) = sum_{k=0}^n A[k]*x^k
+ * Postcondicion: Retorna el valor exacto P(x) en Theta(n) multiplicaciones y sumas.
+ * 1. resultado <- A[n]
+ * 2. para i <- n - 1 downto 0 hacer
+ * 3.     resultado <- resultado * x + A[i]
+ * 4. retornar resultado
+ */
+double metodoHorner(const std::vector<double>& coef, double x) {
+    assert(!coef.empty() && "Precondicion violada: el vector de coeficientes no puede estar vacio");
+    int n = static_cast<int>(coef.size()) - 1;
+    double resultado = coef[n];
+
+    // Invariante de bucle: Al inicio de cada iteracion i,
+    // resultado = sum_{k=0}^{n-(i+1)} coef[k + i + 1] * x^k
+    for (int i = n - 1; i >= 0; --i) {
+        resultado = resultado * x + coef[i];
+    }
+    return resultado;
+}
+
+int main() {
+    // Polinomio P(x) = 2 + 3x - x^2 + 4x^3 evaluado en x = 2 -> 2 + 6 - 4 + 32 = 36
+    std::vector<double> P = {2.0, 3.0, -1.0, 4.0};
+    std::cout << "P(2.0) mediante Regla de Horner = " << metodoHorner(P, 2.0) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Verificación por contrato (assert): }La macro assert valida en tiempo de ejecución la precondición formal del pseudocódigo (!coef.empty()), abortando si el contrato de entrada se incumple.
+  \item \textbf{Reducción de complejidad aritmética: }Mientras la evaluación ingenua término a término requiere $\Theta$(n$^2$) multiplicaciones (o $\Theta$(n log n) con exponenciación binaria), la factorización anidada de Horner P(x) = a$_0$ + x(a$_1$ + x(a$_2$ + ...)) ejecuta exactamente n multiplicaciones y n adiciones, logrando complejidad temporal óptima $\Theta$(n) y espacial $\Theta$(1).
+\end{itemize}
+\subsection*{1.1.3 Abstracción y tipo de dato abstracto}
+\addcontentsline{toc}{subsection}{1.1.3 Abstracción y tipo de dato abstracto}
+La abstracción es el principio fundamental de la ingeniería de software y las ciencias de la computación que consiste en capturar las propiedades esenciales de un sistema complejo omitiendo los detalles incidentales de su representación física. Se materializa en dos niveles complementarios: la abstracción procedimental (que separa el qué calcula una función del cómo está codificada) y la abstracción de datos (que separa el comportamiento lógico de un conjunto de datos de su disposición física en memoria RAM).\par
+Un Tipo de Dato Abstracto (TDA o ADT, por sus siglas en inglés) se define formalmente como una terna matemática (D, F, A) integrada por un dominio de valores D, un conjunto de funciones u operaciones abstractas F sobre dicho dominio, y un conjunto de axiomas algebraicos A que especifican de manera exacta la semántica de las operaciones sin aludir a direcciones de memoria, punteros ni arreglos.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.332\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Concepto Técnico} & \textbf{\color{ipnguinda}Nivel de Abstracción} & \textbf{\color{ipnguinda}Definición Rigurosa en Ciencias de la Computación} & \textbf{\color{ipnguinda}Ejemplo Ilustrativo} \\
+\midrule
+\textbf{Tipo de Dato Primitivo} & Hardware / Compilador & Conjunto de valores escalares y operaciones aritmético-lógicas soportadas nativamente por la arquitectura del procesador. & int (complemento a 2, 32/64 bits), double (IEEE 754), char \\
+\addlinespace[3pt]
+\textbf{Tipo de Dato Abstracto (TDA)} & Lógico / Matemático & Modelo matemático formal junto con el contrato de operaciones públicas (interfaz) y sus axiomas de comportamiento. & TAD Pila (LIFO), TAD Cola de Prioridad, TAD Diccionario \\
+\addlinespace[3pt]
+\textbf{Estructura de Datos} & Físico / Implementación & Organización concreta de celdas contiguas o nodos enlazados en memoria mediante la cual se materializa un TDA. & Arreglo circular, lista doblemente enlazada, árbol rojo-negro \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Especificación e Implementación Genérica de un TDA (TAD Conjunto Finito con Templates en C++)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Especificacion Generica del TDA Conjunto<T> con Ocultamiento de Informacion
+template <typename T>
+class ConjuntoTDA {
+private:
+    // Implementacion privada (Caja Negra): Vector dinamico mantenido en orden estricto
+    std::vector<T> elementos_;
+
+public:
+    ConjuntoTDA() = default;
+
+    // Operacion Pertenece(x): Busqueda binaria en O(log n) gracias al invariante de orden
+    bool pertenece(const T& x) const {
+        return std::binary_search(elementos_.begin(), elementos_.end(), x);
+    }
+
+    // Operacion Insertar(x): Preserva unicidad y orden en O(n)
+    void insertar(const T& x) {
+        auto it = std::lower_bound(elementos_.begin(), elementos_.end(), x);
+        if (it == elementos_.end() || *it != x) {
+            elementos_.insert(it, x);
+        }
+    }
+
+    // Operacion Union Matematica (A U B) en tiempo lineal O(|A| + |B|)
+    ConjuntoTDA<T> unirCon(const ConjuntoTDA<T>& otro) const {
+        ConjuntoTDA<T> resultado;
+        std::set_union(elementos_.begin(), elementos_.end(),
+                       otro.elementos_.begin(), otro.elementos_.end(),
+                       std::back_inserter(resultado.elementos_));
+        return resultado;
+    }
+
+    size_t cardinalidad() const { return elementos_.size(); }
+    void imprimir() const {
+        std::cout << "{ ";
+        for (const auto& e : elementos_) std::cout << e << " ";
+        std::cout << "}\n";
+    }
+};
+
+int main() {
+    ConjuntoTDA<int> A, B;
+    A.insertar(10); A.insertar(5); A.insertar(20); A.insertar(10); // 10 no se duplica
+    B.insertar(15); B.insertar(5); B.insertar(30);
+    ConjuntoTDA<int> C = A.unirCon(B);
+    C.imprimir(); // Salida ordenada: { 5 10 15 20 30 }
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Encapsulamiento y ocultamiento de información: }El atributo privado elementos\_ oculta la estructura de datos física. Si posteriormente se sustituye std::vector<T> por un Árbol Rojo-Negro, el código cliente en main() permanece intacto.
+  \item \textbf{Parametrización genérica (template <typename T>): }Permite instanciar el TDA para cualquier tipo T que defina el operador relacional menor que (<).
+  \item \textbf{Invariante de representación: }El método insertar utiliza std::lower\_bound para ubicar la posición exacta en O(log n) y verifica que el elemento no exista previamente, manteniendo el contenedor estrictamente ordenado y sin duplicados.
+\end{itemize}
+\subsection*{1.1.4 Orden de complejidad O() de un algoritmo}
+\addcontentsline{toc}{subsection}{1.1.4 Orden de complejidad O() de un algoritmo}
+El análisis de complejidad asintótica evalúa la eficiencia de un algoritmo cuantificando el crecimiento del número de operaciones elementales T(n) y de celdas de memoria S(n) cuando el tamaño de la entrada n tiende a infinito (n $\rightarrow$ $\infty$), abstrayéndose de constantes dependientes del hardware o del compilador.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Notación O-Grande (Cota Superior Asintótica): }f(n) $\in$ O(g(n)) si y solo si existen constantes reales positivas c > 0 y n$_0$ $\ge$ 1 tales que 0 $\le$ f(n) $\le$ c$\cdot$g(n) para todo n $\ge$ n$_0$. Garantiza que el costo nunca crecerá más rápido que g(n).
+  \item \textbf{Notación $\Omega$-Grande (Cota Inferior Asintótica): }f(n) $\in$ $\Omega$(g(n)) si y solo si existen constantes positivas c > 0 y n$_0$ $\ge$ 1 tales que 0 $\le$ c$\cdot$g(n) $\le$ f(n) para todo n $\ge$ n$_0$. Establece el piso mínimo de recursos requeridos.
+  \item \textbf{Notación $\Theta$-Grande (Orden Exacto / Cota Ajustada): }f(n) $\in$ $\Theta$(g(n)) si y solo si existen constantes positivas c$_1$, c$_2$ > 0 y n$_0$ $\ge$ 1 tales que c$_1$$\cdot$g(n) $\le$ f(n) $\le$ c$_2$$\cdot$g(n) para todo n $\ge$ n$_0$; es decir, f(n) $\in$ O(g(n)) y f(n) $\in$ $\Omega$(g(n)).
+  \item \textbf{Álgebra de órdenes de complejidad: }Regla de la suma (secuencia de bloques): O(f(n)) + O(g(n)) = O(max(f(n), g(n))). Regla del producto (bucles anidados): O(f(n)) $\cdot$ O(g(n)) = O(f(n)$\cdot$g(n)).
+\end{itemize}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.388\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Orden Asintótico} & \textbf{\color{ipnguinda}Denominación Técnica} & \textbf{\color{ipnguinda}Crecimiento para n = 1,000} & \textbf{\color{ipnguinda}Estructura Algorítmica Característica y Ejemplo} \\
+\midrule
+\textbf{$\Theta$(1)} & Constante & 1 op & Acceso directo por índice en arreglo, Push/Pop en pila, cálculo aritmético cerrado. \\
+\addlinespace[3pt]
+\textbf{$\Theta$(log$_2$ n)} & Logarítmica & $\approx$ 10 ops & División sucesiva del espacio de búsqueda a la mitad (Búsqueda Binaria, inserción en Heap). \\
+\addlinespace[3pt]
+\textbf{$\Theta$(n)} & Lineal & 1,000 ops & Recorrido secuencial simple de n elementos (Búsqueda Lineal, regla de Horner). \\
+\addlinespace[3pt]
+\textbf{$\Theta$(n log$_2$ n)} & Cuasilineal & $\approx$ 10,000 ops & Dividir para vencer con combinación lineal (Merge Sort, HeapSort, QuickSort promedio). \\
+\addlinespace[3pt]
+\textbf{$\Theta$(n$^2$)} & Cuadrática & 1,000,000 ops & Doble bucle anidado sobre la entrada (Insertion Sort, Selection Sort, Bubble Sort). \\
+\addlinespace[3pt]
+\textbf{$\Theta$(n$^3$)} & Cúbica & 10$^9$ ops & Triple bucle anidado (Multiplicación matricial estándar, algoritmo de Floyd-Warshall). \\
+\addlinespace[3pt]
+\textbf{$\Theta$(2$^n$) / $\Theta$(n!)} & Exponencial / Factorial & > 10$^3$$^0$$^0$ ops (Inviable) & Exploración exhaustiva de subconjuntos (2$^n$) o permutaciones del Agente Viajero (n!). \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Demostración Empírica de Órdenes de Complejidad (O(n$^2$) vs O(n) en el Problema de Subarreglo de Suma Máxima)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits>
+
+// Enfoque 1: Fuerza Bruta Cuadratica Theta(n^2) - Dos bucles anidados (Regla del Producto)
+long long maxSubarregloCuadratico(const std::vector<int>& A) {
+    long long mejorSuma = std::numeric_limits<long long>::min();
+    int n = static_cast<int>(A.size());
+    for (int i = 0; i < n; ++i) {
+        long long sumaActual = 0;
+        for (int j = i; j < n; ++j) {
+            sumaActual += A[j];
+            mejorSuma = std::max(mejorSuma, sumaActual);
+        }
+    }
+    return mejorSuma;
+}
+
+// Enfoque 2: Algoritmo de Kadane Theta(n) - Un unico recorrido lineal con programacion dinamica O(1)
+long long maxSubarregloKadane(const std::vector<int>& A) {
+    long long mejorGlobal = A[0];
+    long long mejorTerminandoAqui = A[0];
+    for (size_t i = 1; i < A.size(); ++i) {
+        mejorTerminandoAqui = std::max(static_cast<long long>(A[i]), mejorTerminandoAqui + A[i]);
+        mejorGlobal = std::max(mejorGlobal, mejorTerminandoAqui);
+    }
+    return mejorGlobal;
+}
+
+int main() {
+    std::vector<int> datos = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    std::cout << "Suma maxima O(n^2): " << maxSubarregloCuadratico(datos) << "\n";
+    std::cout << "Suma maxima O(n)  : " << maxSubarregloKadane(datos) << "\n"; // Resultado: 6 ([4, -1, 2, 1])
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Análisis del doble bucle en maxSubarregloCuadratico: }Para cada índice inicial i $\in$ [0, n-1], el ciclo interno recorre n - i posiciones. Por la suma aritmética $\sum$(n - i) = n(n + 1)/2, su orden exacto es $\Theta$(n$^2$) en mejor, promedio y peor caso.
+  \item \textbf{Optimalidad asintótica del Algoritmo de Kadane: }Explota la relación de recurrencia local mejorTerminandoAqui[i] = max(A[i], mejorTerminandoAqui[i-1] + A[i]). Con un solo lazo de n - 1 iteraciones y dos variables escalares, reduce el tiempo a $\Theta$(n) y el espacio auxiliar a $\Theta$(1).
+\end{itemize}
+\section*{1.2 El problema del ordenamiento}
+\addcontentsline{toc}{section}{1.2 El problema del ordenamiento}
+El problema del ordenamiento (sorting problem) consiste en recibir una secuencia de n registros $\langle$a$_1$, a$_2$, ..., a$_n$$\rangle$ y producir como salida una permutación $\langle$a'$_1$, a'$_2$, ..., a'$_n$$\rangle$ de la secuencia original tal que sus claves satisfagan una relación de orden total: a'$_1$ $\le$ a'$_2$ $\le$ ... $\le$ a'$_n$.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Ordenamiento Interno vs. Externo: }El ordenamiento interno opera íntegramente en memoria principal (RAM) con acceso aleatorio O(1), mientras que el externo procesa volúmenes masivos en almacenamiento secundario minimizando transferencias de bloques de E/S mediante intercalación polifásica o K-way Merge.
+  \item \textbf{Estabilidad: }Un algoritmo de ordenamiento es estable si para todo par de registros con claves idénticas (k(a$_i$) = k(a$_j$)) donde i < j en la entrada, a$_i$ precede a a$_j$ en la permutación de salida.
+  \item \textbf{Operación en Sitio (In-Place): }Un algoritmo es in-place si transforma la secuencia original empleando únicamente O(1) —o a lo sumo O(log n) para la pila de recursión— de memoria adicional fuera del contenedor de entrada.
+  \item \textbf{Adaptatividad: }Un algoritmo es adaptativo si aprovecha el orden parcial preexistente (medido por el número de inversiones Inv(A)) para reducir su tiempo de ejecución hacia O(n).
+\end{itemize}
+\subsection*{1.2.1 Ordenamiento por inserción}
+\addcontentsline{toc}{subsection}{1.2.1 Ordenamiento por inserción}
+El ordenamiento por inserción (Insertion Sort) construye incrementalmente la subsecuencia ordenada en el prefijo A[0..j-1]. En cada iteración j (desde 1 hasta n-1), extrae el elemento clave = A[j] y desplaza una posición hacia la derecha todos los elementos A[i] del prefijo ordenado que sean estrictamente mayores que clave, insertando finalmente clave en la celda vacante A[i+1].\par
+Demostración formal por Invariante de Bucle: Al inicio de cada iteración j del bucle externo, el subarreglo A[0..j-1] contiene los mismos elementos que estaban originalmente en A[0..j-1], pero dispuestos en orden no decreciente. Para j = 1 (Inicialización), A[0..0] tiene un solo elemento y es trivialmente ordenado. En el cuerpo del ciclo (Mantenimiento), desplazar los elementos mayores que A[j] e insertar clave preserva el orden en A[0..j]. Al terminar con j = n (Terminación), A[0..n-1] contiene la totalidad del arreglo ordenado.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Ordenamiento por Inserción Estándar y con Búsqueda Binaria (Binary Insertion Sort)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// 1. Insertion Sort Clasico: Estable, In-Place O(1), Adaptativo O(n + Inv(A))
+template <typename T>
+void insertionSort(std::vector<T>& A) {
+    int n = static_cast<int>(A.size());
+    for (int j = 1; j < n; ++j) {
+        T clave = A[j];
+        int i = j - 1;
+        // Desplaza elementos mayores hacia la derecha (comparacion estricta '>' preserva estabilidad)
+        while (i >= 0 && A[i] > clave) {
+            A[i + 1] = A[i];
+            --i;
+        }
+        A[i + 1] = clave;
+    }
+}
+
+// 2. Binary Insertion Sort: Reduce comparaciones a O(n log n), manteniendo desplazamientos O(n^2)
+template <typename T>
+void binaryInsertionSort(std::vector<T>& A) {
+    for (auto it = A.begin(); it != A.end(); ++it) {
+        // std::upper_bound halla en O(log j) el primer elemento estrictamente mayor que *it
+        auto posInsercion = std::upper_bound(A.begin(), it, *it);
+        // Rota el subrango desplazando los elementos hacia la derecha
+        std::rotate(posInsercion, it, it + 1);
+    }
+}
+
+int main() {
+    std::vector<int> datos = {29, 10, 14, 37, 14, 13, 8};
+    insertionSort(datos);
+    for (int x : datos) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Complejidad temporal dependiente de inversiones: }El bucle interno while se ejecuta exactamente tantas veces como inversiones (pares i < j con A[i] > A[j]) existan en el arreglo. En el mejor caso (arreglo ya ordenado), Inv(A) = 0 y realiza n - 1 comparaciones en tiempo $\Theta$(n). En el peor caso (orden inverso) y caso promedio realiza n(n - 1)/2 y n(n - 1)/4 operaciones respectivamente, dando $\Theta$(n$^2$).
+  \item \textbf{Preservación de la estabilidad: }La condición A[i] > clave detiene el desplazamiento en cuanto encuentra un elemento igual a clave, garantizando que claves duplicadas nunca se crucen.
+  \item \textbf{Optimización con Binary Insertion Sort: }Utiliza std::upper\_bound sobre el prefijo ya ordenado para acotar las comparaciones a $\sum$$\lceil$log$_2$ j$\rceil$ = $\Theta$(n log n), ideal cuando comparar objetos complejos (p. ej. cadenas largas o registros compuestos) es mucho más costoso que mover punteros.
+\end{itemize}
+\subsection*{1.2.2 Ordenamiento por selección}
+\addcontentsline{toc}{subsection}{1.2.2 Ordenamiento por selección}
+El ordenamiento por selección (Selection Sort) particiona el arreglo en un prefijo ordenado A[0..i-1] con los i elementos menores en su posición definitiva y un sufijo no ordenado A[i..n-1]. En cada iteración i (desde 0 hasta n-2), explora linealmente todo el sufijo A[i..n-1] para identificar el índice minIdx del elemento mínimo y ejecuta un único intercambio entre A[i] y A[minIdx].\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Ordenamiento por Selección (Selection Sort) con Conteo de Escrituras en Memoria}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <utility>
+
+template <typename T>
+size_t selectionSort(std::vector<T>& A) {
+    int n = static_cast<int>(A.size());
+    size_t numIntercambios = 0;
+
+    // Invariante: A[0..i-1] contiene los i elementos mas pequenos en su posicion final
+    for (int i = 0; i < n - 1; ++i) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; ++j) {
+            if (A[j] < A[minIdx]) {
+                minIdx = j;
+            }
+        }
+        // Solo escribe en memoria si el minimo no se encuentra ya en la posicion i
+        if (minIdx != i) {
+            std::swap(A[i], A[minIdx]);
+            ++numIntercambios;
+        }
+    }
+    return numIntercambios;
+}
+
+int main() {
+    std::vector<int> v = {64, 25, 12, 22, 11};
+    size_t swaps = selectionSort(v);
+    std::cout << "Arreglo ordenado (" << swaps << " intercambios): ";
+    for (int x : v) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Insensibilidad a la distribución de entrada: }El bucle interno evalúa invariablemente n - 1 - i comparaciones en la pasada i, acumulando exactamente n(n - 1)/2 = $\Theta$(n$^2$) comparaciones tanto en el mejor, promedio como peor caso.
+  \item \textbf{Optimalidad en escrituras de memoria: }Dado que std::swap se invoca fuera del bucle interno a lo sumo n - 1 veces, Selection Sort realiza O(n) escrituras físicas en memoria, superando a Insertion Sort y Bubble Sort (que realizan $\Theta$(n$^2$) escrituras en el peor caso).
+  \item \textbf{Inestabilidad por intercambios a distancia: }Al intercambiar A[i] con A[minIdx], si existe otro elemento idéntico a A[i] en una posición k (con i < k < minIdx), el elemento original A[i] salta más allá de k, rompiendo el orden relativo original.
+\end{itemize}
+\subsection*{1.2.3 Ordenamiento de burbuja}
+\addcontentsline{toc}{subsection}{1.2.3 Ordenamiento de burbuja}
+El ordenamiento de burbuja (Bubble Sort) realiza pasadas sucesivas sobre el arreglo comparando e intercambiando pares de elementos adyacentes (A[j] y A[j+1]) que se encuentren desordenados. Al concluir la pasada i, el i-ésimo elemento mayor ha 'flotado' hasta su posición definitiva en el extremo derecho del subarreglo activo.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Bubble Sort Optimizado con Corte por Último Índice de Intercambio y Cocktail Shaker Sort}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <utility>
+
+// 1. Bubble Sort con memoria del ultimo indice intercambiado: Mejor caso Theta(n), Peor caso Theta(n^2)
+template <typename T>
+void bubbleSortOptimizado(std::vector<T>& A) {
+    int n = static_cast<int>(A.size());
+    while (n > 1) {
+        int ultimoSwap = 0; // Registra la frontera exacta donde ocurrio el ultimo intercambio
+        for (int j = 0; j < n - 1; ++j) {
+            if (A[j] > A[j + 1]) {
+                std::swap(A[j], A[j + 1]);
+                ultimoSwap = j + 1;
+            }
+        }
+        // Todo elemento a partir de ultimoSwap ya esta en su posicion final definitiva
+        n = ultimoSwap;
+    }
+}
+
+// 2. Cocktail Shaker Sort (Bidireccional): Corrige la asimetria de elementos "tortuga"
+template <typename T>
+void cocktailShakerSort(std::vector<T>& A) {
+    int inicio = 0;
+    int fin = static_cast<int>(A.size()) - 1;
+    bool intercambiado = true;
+
+    while (intercambiado) {
+        intercambiado = false;
+        for (int i = inicio; i < fin; ++i) {
+            if (A[i] > A[i + 1]) {
+                std::swap(A[i], A[i + 1]);
+                intercambiado = true;
+            }
+        }
+        if (!intercambiado) break;
+        intercambiado = false;
+        --fin;
+        for (int i = fin - 1; i >= inicio; --i) {
+            if (A[i] > A[i + 1]) {
+                std::swap(A[i], A[i + 1]);
+                intercambiado = true;
+            }
+        }
+        ++inicio;
+    }
+}
+
+int main() {
+    std::vector<int> v = {5, 1, 4, 2, 8, 9, 10};
+    bubbleSortOptimizado(v);
+    for (int x : v) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Optimización por frontera de último intercambio (ultimoSwap): }Supera a la bandera booleana tradicional porque si los últimos k elementos del arreglo ya estaban ordenados, acorta inmediatamente el límite superior n a ultimoSwap en una sola pasada en lugar de decrementar n de uno en uno.
+  \item \textbf{Asimetría de liebres y tortugas: }En Bubble Sort unidireccional, un valor grande al inicio ('liebre') viaja hasta el final en una sola pasada, pero un valor pequeño al final ('tortuga') solo retrocede una casilla por pasada. Cocktail Shaker Sort elimina esta asimetría alternando barridos izquierda-derecha y derecha-izquierda.
+\end{itemize}
+\subsection*{1.2.4 Ordenamiento por mezcla}
+\addcontentsline{toc}{subsection}{1.2.4 Ordenamiento por mezcla}
+El ordenamiento por mezcla (Merge Sort), diseñado por John von Neumann en 1945, aplica rigurosamente el paradigma Dividir para Vencer: (1) Dividir calcula el índice medio q = $\lfloor$(p + r)/2$\rfloor$ en $\Theta$(1); (2) Vencer ordena recursivamente los subarreglos A[p..q] y A[q+1..r] en tiempo 2T(n/2); y (3) Combinar intercala ambas mitades ordenadas en una única secuencia ordenada mediante el procedimiento lineal MERGE en $\Theta$(n).\par
+\begin{center}\colorbox{ipnblue!6}{\paddingbox{\textbf{\color{ipnblue}T(n) = 2 T(n / 2) + $\Theta$(n)   $\Longrightarrow$   T(n) = $\Theta$(n log$_2$ n)   (por Teorema Maestro, Caso 2)}}}\end{center}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Merge Sort Estable con Buffer Único Preasignado y Conteo de Inversiones en $\Theta$(n log n)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+
+template <typename T>
+long long intercalar(std::vector<T>& A, std::vector<T>& aux, int izq, int medio, int der) {
+    for (int k = izq; k <= der; ++k) {
+        aux[k] = A[k];
+    }
+    int i = izq;       // Cursor de la mitad izquierda [izq .. medio]
+    int j = medio + 1; // Cursor de la mitad derecha   [medio+1 .. der]
+    long long inversiones = 0;
+
+    for (int k = izq; k <= der; ++k) {
+        if (i > medio) {
+            A[k] = aux[j++];
+        } else if (j > der) {
+            A[k] = aux[i++];
+        } else if (aux[i] <= aux[j]) { // '<=' garantiza estabilidad estricta
+            A[k] = aux[i++];
+        } else {
+            A[k] = aux[j++];
+            inversiones += (medio - i + 1); // Todos los restantes en izq son mayores que aux[j]
+        }
+    }
+    return inversiones;
+}
+
+template <typename T>
+long long mergeSortRec(std::vector<T>& A, std::vector<T>& aux, int izq, int der) {
+    if (izq >= der) return 0;
+    int medio = izq + (der - izq) / 2; // Evita desbordamiento de entero en (izq + der)
+    long long inv = 0;
+    inv += mergeSortRec(A, aux, izq, medio);
+    inv += mergeSortRec(A, aux, medio + 1, der);
+    inv += intercalar(A, aux, izq, medio, der);
+    return inv;
+}
+
+template <typename T>
+long long mergeSort(std::vector<T>& A) {
+    if (A.empty()) return 0;
+    std::vector<T> aux(A.size()); // Una unica reserva en el heap evita O(n log n) reservas
+    return mergeSortRec(A, aux, 0, static_cast<int>(A.size()) - 1);
+}
+
+int main() {
+    std::vector<int> datos = {38, 27, 43, 3, 9, 82, 10};
+    long long inv = mergeSort(datos);
+    std::cout << "Ordenado (Inversiones corregidas = " << inv << "): ";
+    for (int x : datos) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Optimización de memoria con buffer único preasignado: }En lugar de instanciar vectores temporales L y R dentro de cada llamada a intercalar (lo cual presionaría al asignador dinámico del heap miles de veces), se reserva un único std::vector<T> aux de tamaño n en la función envolvente, manteniendo complejidad espacial $\Theta$(n) con sobrecarga mínima.
+  \item \textbf{Prevención de desbordamiento aritmético: }El punto medio se calcula como izq + (der - izq) / 2 en lugar de (izq + der) / 2, previniendo overflow en enteros de 32 bits cuando los índices superan 2$^3$$^0$.
+  \item \textbf{Estabilidad e invariante de intercalación: }La condición aux[i] <= aux[j] prioriza el elemento de la sublista izquierda ante empates de clave, garantizando que el ordenamiento sea estable y permitiendo además contabilizar el número exacto de inversiones en $\Theta$(n log n).
+\end{itemize}
+\subsection*{1.2.5 Comparación de órdenes de complejidad}
+\addcontentsline{toc}{subsection}{1.2.5 Comparación de órdenes de complejidad}
+Teorema de la Cota Inferior para el Ordenamiento por Comparación: Todo algoritmo de ordenamiento basado exclusivamente en comparaciones entre pares de elementos puede representarse como un árbol binario de decisión donde cada hoja corresponde a una de las n! permutaciones posibles. Un árbol binario de altura h posee a lo sumo 2$^h$ hojas; por tanto, 2$^h$ $\ge$ n! $\Longrightarrow$ h $\ge$ log$_2$(n!). Aplicando la aproximación de Stirling (ln(n!) = n ln n - n + O(ln n)), se demuestra que el número mínimo de comparaciones en el peor caso es $\Omega$(n log$_2$ n).\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.166\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Algoritmo} & \textbf{\color{ipnguinda}Mejor Caso} & \textbf{\color{ipnguinda}Caso Promedio} & \textbf{\color{ipnguinda}Peor Caso} & \textbf{\color{ipnguinda}Memoria Auxiliar / Estabilidad} \\
+\midrule
+\textbf{Insertion Sort} & $\Theta$(n) & $\Theta$(n$^2$) & $\Theta$(n$^2$) & $\Theta$(1) In-place | Estable: Sí \\
+\addlinespace[3pt]
+\textbf{Selection Sort} & $\Theta$(n$^2$) & $\Theta$(n$^2$) & $\Theta$(n$^2$) & $\Theta$(1) In-place | Estable: No \\
+\addlinespace[3pt]
+\textbf{Bubble Sort (Opt.)} & $\Theta$(n) & $\Theta$(n$^2$) & $\Theta$(n$^2$) & $\Theta$(1) In-place | Estable: Sí \\
+\addlinespace[3pt]
+\textbf{Merge Sort} & $\Theta$(n log n) & $\Theta$(n log n) & $\Theta$(n log n) & $\Theta$(n) Auxiliar | Estable: Sí \\
+\addlinespace[3pt]
+\textbf{QuickSort (Mediana-3)} & $\Theta$(n log n) & $\Theta$(n log n) & $\Theta$(n$^2$) & $\Theta$(log n) Pila | Estable: No \\
+\addlinespace[3pt]
+\textbf{HeapSort} & $\Theta$(n log n) & $\Theta$(n log n) & $\Theta$(n log n) & $\Theta$(1) In-place | Estable: No \\
+\addlinespace[3pt]
+\textbf{Counting / Radix Sort} & $\Theta$(n + k) & $\Theta$(n + k) & $\Theta$(n + k) & $\Theta$(n + k) Aux. | Estable: Sí \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\section*{1.3 El problema de la búsqueda}
+\addcontentsline{toc}{section}{1.3 El problema de la búsqueda}
+El problema de la búsqueda (search problem) consiste en determinar si un registro cuya clave de identificación coincide con un valor objetivo x pertenece a una colección A = $\langle$a$_0$, a$_1$, ..., a$_n$$_{-}$$_1$$\rangle$, devolviendo su ubicación exacta (índice o iterador) en caso de éxito, o un valor centinela distinguido (como -1 o end()) si x $\notin$ A.\par
+\subsection*{1.3.1 Búsqueda secuencial}
+\addcontentsline{toc}{subsection}{1.3.1 Búsqueda secuencial}
+La búsqueda secuencial (o lineal) inspecciona progresivamente cada elemento desde el inicio de la colección hasta hallar el primer elemento tal que A[i] = x o agotar los n elementos. No exige orden previo en las claves y opera tanto en contenedores contiguos como en listas enlazadas.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Búsqueda Secuencial Estándar y Búsqueda Secuencial Optimizada con Centinela}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+
+// 1. Busqueda Secuencial Estandar: Evalua 2 condiciones por iteracion (i < n y A[i] != x)
+template <typename T>
+int busquedaSecuencial(const std::vector<T>& A, const T& x) {
+    int n = static_cast<int>(A.size());
+    // Invariante: Para todo k en [0, i-1], A[k] != x
+    for (int i = 0; i < n; ++i) {
+        if (A[i] == x) return i;
+    }
+    return -1;
+}
+
+// 2. Busqueda con Centinela (Knuth TAOCP Vol. 3): Elimina la comparacion de limite i < n en el bucle
+template <typename T>
+int busquedaConCentinela(std::vector<T>& A, const T& x) {
+    int n = static_cast<int>(A.size());
+    if (n == 0) return -1;
+    if (A[n - 1] == x) return n - 1;
+
+    T respaldoUltimo = A[n - 1];
+    A[n - 1] = x; // Coloca el centinela en la ultima posicion garantizando parada
+
+    int i = 0;
+    while (A[i] != x) { // Una sola evaluacion condicional por paso
+        ++i;
+    }
+
+    A[n - 1] = respaldoUltimo; // Restaura el arreglo original
+    return (i < n - 1) ? i : -1;
+}
+
+int main() {
+    std::vector<int> datos = {42, 15, 8, 99, 23, 4};
+    std::cout << "Indice de 99 (Estandar) : " << busquedaSecuencial(datos, 99) << "\n";
+    std::cout << "Indice de 99 (Centinela): " << busquedaConCentinela(datos, 99) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Técnica del centinela de Knuth: }En busquedaConCentinela se almacena temporalmente el valor buscado x en A[n-1]. Esto garantiza que el ciclo while (A[i] != x) termine siempre sin necesidad de comprobar i < n en cada iteración, reduciendo a la mitad las instrucciones de salto condicional del bucle interno.
+  \item \textbf{Complejidad asintótica: }Mejor caso $\Theta$(1) cuando x = A[0]; peor caso $\Theta$(n) cuando x no existe o está al final; caso promedio (n + 1)/2 = $\Theta$(n) bajo distribución uniforme de consultas exitosas.
+\end{itemize}
+\subsection*{1.3.2 Búsqueda binaria}
+\addcontentsline{toc}{subsection}{1.3.2 Búsqueda binaria}
+La búsqueda binaria aplica Dividir para Vencer sobre un arreglo ordenado de acceso aleatorio O(1). Compara la clave objetivo x con el elemento central A[m] del intervalo activo [L, R]; si x < A[m] descarta la mitad derecha ajustando R = m - 1, y si x > A[m] descarta la mitad izquierda ajustando L = m + 1. La recurrencia T(n) = T(n/2) + $\Theta$(1) converge en un máximo de $\lfloor$log$_2$ n$\rfloor$ + 1 comparaciones, es decir, $\Theta$(log n).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Búsqueda Binaria Iterativa, Recursiva y Búsqueda de Primera Aparición (Lower Bound)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+
+// 1. Busqueda Binaria Iterativa: Complejidad Temporal O(log n), Espacial O(1)
+template <typename T>
+int busquedaBinariaIterativa(const std::vector<T>& A, const T& x) {
+    int L = 0;
+    int R = static_cast<int>(A.size()) - 1;
+    // Invariante: Si x pertenece a A, entonces x se encuentra dentro del subrango cerrado A[L..R]
+    while (L <= R) {
+        int m = L + (R - L) / 2;
+        if (A[m] == x) return m;
+        if (x < A[m])  R = m - 1;
+        else           L = m + 1;
+    }
+    return -1;
+}
+
+// 2. Busqueda Binaria Recursiva: Complejidad Temporal O(log n), Espacial O(log n) en pila
+template <typename T>
+int busquedaBinariaRecursiva(const std::vector<T>& A, const T& x, int L, int R) {
+    if (L > R) return -1;
+    int m = L + (R - L) / 2;
+    if (A[m] == x) return m;
+    if (x < A[m])  return busquedaBinariaRecursiva(A, x, L, m - 1);
+    return busquedaBinariaRecursiva(A, x, m + 1, R);
+}
+
+// 3. Lower Bound: Localiza la primera posicion i tal que A[i] >= x (manejo exacto de duplicados)
+template <typename T>
+int busquedaPrimeraAparicion(const std::vector<T>& A, const T& x) {
+    int L = 0, R = static_cast<int>(A.size()) - 1, resultado = -1;
+    while (L <= R) {
+        int m = L + (R - L) / 2;
+        if (A[m] >= x) {
+            if (A[m] == x) resultado = m;
+            R = m - 1; // Sigue buscando hacia la izquierda por si existen duplicados previos
+        } else {
+            L = m + 1;
+        }
+    }
+    return resultado;
+}
+
+int main() {
+    std::vector<int> ordenado = {3, 7, 12, 12, 12, 19, 25, 40};
+    std::cout << "Binaria Iterativa (19)    : indice " << busquedaBinariaIterativa(ordenado, 19) << "\n";
+    std::cout << "Primera aparicion de (12) : indice " << busquedaPrimeraAparicion(ordenado, 12) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Invariante de intervalo cerrado [L, R]: }La condición L <= R asegura que el intervalo de longitud 1 (cuando L == R) sea inspeccionado antes de concluir fallo. En cada paso el tamaño del intervalo R - L + 1 disminuye estrictamente al menos a la mitad.
+  \item \textbf{Determinismo ante claves duplicadas: }Mientras la búsqueda binaria estándar puede devolver cualquiera de los índices donde aparece una clave repetida, busquedaPrimeraAparicion continúa acotando R = m - 1 al hallar coincidencia, garantizando localizar el índice mínimo en $\Theta$(log n).
+\end{itemize}
+\subsection*{1.3.3 Búsqueda indexada}
+\addcontentsline{toc}{subsection}{1.3.3 Búsqueda indexada}
+La búsqueda indexada (Indexed Sequential Search / ISAM) optimiza la localización de registros en colecciones masivas dividiendo la estructura en un contenedor principal de datos particionado en bloques de tamaño B y una tabla de índice auxiliar ordenada en RAM con entradas (clave\_máxima\_bloque, índice\_base\_bloque).\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Índice Disperso (Sparse Index): }El archivo principal está ordenado y la tabla de índice almacena únicamente una tupla por cada bloque físico de tamaño B (k = $\lceil$n/B$\rceil$ entradas).
+  \item \textbf{Índice Denso (Dense Index): }Mantiene una entrada ordenada en el índice por cada registro del archivo principal, permitiendo buscar en O(log n) aun cuando los registros pesados residan desordenados en almacenamiento secundario.
+  \item \textbf{Optimización de tamaño de bloque: }Si se realiza búsqueda secuencial tanto en el índice de tamaño k = n/B como dentro del bloque de tamaño B, el costo esperado es k/2 + B/2, el cual se minimiza eligiendo B = $\sqrt{}$n para obtener O($\sqrt{}$n). Si se aplica búsqueda binaria en ambos niveles, el costo se reduce a O(log(n/B) + log B) = O(log n).
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Búsqueda Indexada (Índice Disperso con Búsqueda Binaria de Bloque y Búsqueda Local)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+struct EntradaIndice {
+    int claveMaxima;
+    size_t inicioBloque;
+    size_t finBloque;
+};
+
+class BuscadorIndexado {
+private:
+    const std::vector<int>& datos_;
+    std::vector<EntradaIndice> tablaIndice_;
+
+public:
+    explicit BuscadorIndexado(const std::vector<int>& datosOrdenados, size_t tamBloque)
+        : datos_(datosOrdenados) {
+        size_t n = datos_.size();
+        for (size_t i = 0; i < n; i += tamBloque) {
+            size_t fin = std::min(i + tamBloque - 1, n - 1);
+            tablaIndice_.push_back({datos_[fin], i, fin});
+        }
+    }
+
+    int buscar(int x) const {
+        if (datos_.empty() || x < datos_.front() || x > datos_.back()) return -1;
+
+        // Fase 1: Busqueda binaria sobre la tabla de indices en O(log(n/B))
+        int L = 0, R = static_cast<int>(tablaIndice_.size()) - 1, bloqueCandidato = -1;
+        while (L <= R) {
+            int m = L + (R - L) / 2;
+            if (tablaIndice_[m].claveMaxima >= x) {
+                bloqueCandidato = m;
+                R = m - 1;
+            } else {
+                L = m + 1;
+            }
+        }
+        if (bloqueCandidato == -1) return -1;
+
+        // Fase 2: Busqueda acotada exclusivamente dentro del bloque fisico [inicioBloque .. finBloque]
+        size_t ini = tablaIndice_[bloqueCandidato].inicioBloque;
+        size_t fin = tablaIndice_[bloqueCandidato].finBloque;
+        for (size_t i = ini; i <= fin; ++i) {
+            if (datos_[i] == x) return static_cast<int>(i);
+            if (datos_[i] > x)  break; // Parada temprana por orden interno del bloque
+        }
+        return -1;
+    }
+};
+
+int main() {
+    std::vector<int> archivo = {4, 8, 15, 16, 23, 42, 50, 61, 77, 84, 91, 105};
+    BuscadorIndexado isam(archivo, 4); // Bloques de 4 registros
+    std::cout << "Registro 61 localizado en indice: " << isam.buscar(61) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Arquitectura en dos fases: }El constructor construye un índice disperso con k = $\lceil$n/B$\rceil$ entradas almacenando la clave máxima y los límites de cada bloque. Al consultar buscar(x), la Fase 1 descarta bloques completos en O(log k) sin tocar el contenedor principal.
+  \item \textbf{Localidad espacial y parada temprana: }La Fase 2 recorre únicamente el bloque candidato de longitud B (compatible con una línea de caché L1 o página de disco) y aborta anticipadamente si datos\_[i] > x.
+\end{itemize}
+\subsection*{1.3.4 Comparación de órdenes de complejidad}
+\addcontentsline{toc}{subsection}{1.3.4 Comparación de órdenes de complejidad}
+Nota curricular: En el programa sintético original aparece erróneamente numerado como '1.2.4 Comparación de órdenes de complejidad' dentro de la sección 1.3; aquí se corrige formalmente a 1.3.4.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.208\linewidth}>{\raggedright\arraybackslash}p{0.111\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Algoritmo de Búsqueda} & \textbf{\color{ipnguinda}Precondición de los Datos} & \textbf{\color{ipnguinda}Mejor Caso} & \textbf{\color{ipnguinda}Caso Promedio} & \textbf{\color{ipnguinda}Peor Caso / Espacio Auxiliar} \\
+\midrule
+\textbf{Búsqueda Secuencial} & Ninguna (Ordenados o no) & $\Theta$(1) & $\Theta$(n) & $\Theta$(n) | Espacio: $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{Búsqueda Binaria} & Orden estricto + Acceso O(1) & $\Theta$(1) & $\Theta$(log$_2$ n) & $\Theta$(log$_2$ n) | Espacio: $\Theta$(1) iter. \\
+\addlinespace[3pt]
+\textbf{Búsqueda Indexada (ISAM)} & Bloques ordenados + Índice & $\Theta$(1) & $\Theta$(log k + B) & $\Theta$(log k + B) | Espacio: $\Theta$(n/B) \\
+\addlinespace[3pt]
+\textbf{Árbol B / B+ (Disco)} & Árbol m-ario balanceado & $\Theta$(1) & $\Theta$(log$_m$ n) & $\Theta$(log$_m$ n) | Espacio: $\Theta$(n) \\
+\addlinespace[3pt]
+\textbf{Tabla Hash} & Función de dispersión h(k) & $\Theta$(1) & $\Theta$(1 + $\alpha$) & $\Theta$(n) | Espacio: $\Theta$(m + n) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\section*{1.4 Exploración exhaustiva y vuelta atrás}
+\addcontentsline{toc}{section}{1.4 Exploración exhaustiva y vuelta atrás}
+Cuando un problema de decisión, satisfacción de restricciones (CSP) u optimización combinatoria carece de subestructura óptima voraz o polinomial, es necesario explorar el espacio de estados mediante esquemas de enumeración sistemática.\par
+\subsection*{1.4.1 Exploración exhaustiva}
+\addcontentsline{toc}{subsection}{1.4.1 Exploración exhaustiva}
+La exploración exhaustiva (fuerza bruta) implementa el paradigma 'Generar y Probar' (Generate-and-Test): enumera la totalidad de los candidatos completos del espacio de búsqueda S y verifica para cada uno si satisface las restricciones del problema. Garantiza hallar el óptimo global, pero sufre explosión combinatoria (|S| = 2$^n$ para subconjuntos, |S| = n! para permutaciones).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Exploración Exhaustiva de Subconjuntos mediante Máscara de Bits (Problema de la Mochila 0/1 Exacto)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+
+struct Objeto { int peso; int valor; };
+
+// Exploracion Exhaustiva O(n * 2^n): Evalua los 2^n subconjuntos del conjunto potencia
+int mochilaExhaustiva(const std::vector<Objeto>& objs, int capacidadMax, std::vector<int>& mejorSeleccion) {
+    int n = static_cast<int>(objs.size());
+    long long totalSubconjuntos = 1LL << n; // 2^n configuraciones
+    int maxValor = 0;
+
+    for (long long mascara = 0; mascara < totalSubconjuntos; ++mascara) {
+        int pesoActual = 0, valorActual = 0;
+        std::vector<int> actual;
+        for (int i = 0; i < n; ++i) {
+            if (mascara & (1LL << i)) { // Verifica si el bit i-esimo esta activo
+                pesoActual += objs[i].peso;
+                valorActual += objs[i].valor;
+                actual.push_back(i);
+            }
+        }
+        if (pesoActual <= capacidadMax && valorActual > maxValor) {
+            maxValor = valorActual;
+            mejorSeleccion = actual;
+        }
+    }
+    return maxValor;
+}
+
+int main() {
+    std::vector<Objeto> items = {{2, 30}, {3, 40}, {4, 50}, {5, 60}};
+    std::vector<int> seleccion;
+    int optimo = mochilaExhaustiva(items, 8, seleccion);
+    std::cout << "Valor optimo Mochila (Cap=8): " << optimo << " con objetos: ";
+    for (int idx : seleccion) std::cout << idx << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Biyección entre enteros y el conjunto potencia P(S): }Cada entero mascara $\in$ [0, 2$^n$ - 1] codifica en binario un subconjunto único de los n objetos. El operador a nivel de bits (mascara \& (1LL << i)) determina en $\Theta$(1) si el objeto i pertenece al candidato actual.
+  \item \textbf{Cota de viabilidad computacional: }Al ejecutar n iteraciones por cada una de las 2$^n$ máscaras, su costo es exactamente $\Theta$(n$\cdot$2$^n$) con espacio auxiliar $\Theta$(n), siendo factible en tiempos sub-segundo para n $\le$ 22.
+\end{itemize}
+\subsection*{1.4.2 Programación por vuelta atrás}
+\addcontentsline{toc}{subsection}{1.4.2 Programación por vuelta atrás}
+La programación por vuelta atrás (Backtracking) construye la solución incrementalmente como una tupla parcial $\langle$x$_1$, x$_2$, ..., x$_k$$\rangle$ recorriendo en profundidad (DFS) el árbol de espacio de estados. En cada nivel k evalúa una función de factibilidad o poda (pruning): si el candidato parcial infringe alguna restricción implícita o explícita, descarta de inmediato todo el subárbol descendiente, deshace la anotación en x$_k$ y retrocede al nivel k - 1.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Backtracking con Poda en O(1) mediante Máscaras de Ataque (Problema de las N-Reinas)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+
+class SolucionadorNReinas {
+private:
+    int N_;
+    int totalSoluciones_ = 0;
+    std::vector<int> reinaEnFila_;     // reinaEnFila_[fila] = columna colocada
+    std::vector<bool> colOcupada_;     // Restriccion de columna
+    std::vector<bool> diagPrincipal_;  // fila - col + (N - 1) constante
+    std::vector<bool> diagSecundaria_; // fila + col constante
+
+    void backtrack(int fila) {
+        if (fila == N_) { // Caso base: Tupla completa valida <x_0, ..., x_{N-1}>
+            ++totalSoluciones_;
+            return;
+        }
+        for (int col = 0; col < N_; ++col) {
+            int d1 = fila - col + (N_ - 1);
+            int d2 = fila + col;
+            // Funcion de Poda en tiempo constante O(1)
+            if (!colOcupada_[col] && !diagPrincipal_[d1] && !diagSecundaria_[d2]) {
+                // 1. Anotar paso
+                reinaEnFila_[fila] = col;
+                colOcupada_[col] = diagPrincipal_[d1] = diagSecundaria_[d2] = true;
+
+                // 2. Ensayar siguiente nivel recursivamente
+                backtrack(fila + 1);
+
+                // 3. Deshacer paso (Vuelta Atras / Backtrack)
+                colOcupada_[col] = diagPrincipal_[d1] = diagSecundaria_[d2] = false;
+            }
+        }
+    }
+
+public:
+    explicit SolucionadorNReinas(int n)
+        : N_(n), reinaEnFila_(n, -1), colOcupada_(n, false),
+          diagPrincipal_(2 * n - 1, false), diagSecundaria_(2 * n - 1, false) {}
+
+    int resolver() {
+        totalSoluciones_ = 0;
+        backtrack(0);
+        return totalSoluciones_;
+    }
+};
+
+int main() {
+    SolucionadorNReinas ochoReinas(8);
+    std::cout << "Soluciones exactas para 8-Reinas: " << ochoReinas.resolver() << "\n"; // 92 soluciones
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Esquema Anotar-Ensayar-Deshacer con Poda O(1): }En lugar de recorrer las filas previas en O(N) para verificar ataques, utiliza tres arreglos booleanos indexados por las invariantes geométricas de las diagonales: fila - col + (N - 1) para diagonales principales y fila + col para diagonales secundarias.
+  \item \textbf{Restauración exacta del estado: }Tras retornar de backtrack(fila + 1), la línea de vuelta atrás restablece en false las tres banderas exactamente al estado previo antes de probar la siguiente columna col + 1.
+\end{itemize}
+\subsection*{1.4.3 Nociones de complejidad de la exploración exhaustiva y vuelta atrás}
+\addcontentsline{toc}{subsection}{1.4.3 Nociones de complejidad de la exploración exhaustiva y vuelta atrás}
+El impacto cuantitativo de la poda se aprecia al comparar el número de estados visitados en el problema de las 8-Reinas: la fuerza bruta pura sobre el tablero evalúa C(64, 8) = 4,426,165,368 configuraciones; restringir a una reina por fila reduce a 8$^8$ = 16,777,216 tuplas; restringir a permutaciones de columnas evalúa 8! = 40,320 hojas; mientras que el algoritmo de Backtracking con poda diagonal inspecciona únicamente 2,057 nodos válidos para hallar las 92 soluciones exactas.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.249\linewidth}>{\raggedright\arraybackslash}p{0.318\linewidth}>{\raggedright\arraybackslash}p{0.332\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Métrica / Criterio} & \textbf{\color{ipnguinda}Exploración Exhaustiva (Fuerza Bruta)} & \textbf{\color{ipnguinda}Programación por Vuelta Atrás (Backtracking)} \\
+\midrule
+\textbf{Complejidad Temporal (Peor Caso)} & $\Theta$(b$^n$) o $\Theta$(n!) invariable en toda instancia & O(b$^n$) o O(n!) en el caso degenerado sin podas \\
+\addlinespace[3pt]
+\textbf{Complejidad Temporal Efectiva} & Idéntica al peor caso (evalúa el 100\% de hojas) & O((b')$^n$) con factor de ramificación efectivo b' $\ll$ b \\
+\addlinespace[3pt]
+\textbf{Complejidad Espacial Auxiliar} & $\Theta$(1) o $\Theta$(n) para alojar la tupla candidato & $\Theta$(n) en la pila de recursión (altura máxima del árbol) \\
+\addlinespace[3pt]
+\textbf{Mecanismo de Descarte} & Post-evaluación tras generar la n-tupla completa & Poda temprana en el nivel k que ahorra b$^n$$^-$$^k$ descendientes \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\newpage
+\noindent\colorbox{ipnguinda!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{6pt}\textbf{\color{ipnblue}\small UNIDAD TEMÁTICA II}\\[4pt]\textbf{\color{ipnguinda}\LARGE Estructuras de Datos Lineales}\\[6pt]\textbf{\color{ipnblue}Unidad de Competencia (Programa Oficial IPN ISC-2020):} \textit{Construye estructuras de datos lineales a partir de especificaciones genéricas.}\vspace{6pt}}}\vspace{10pt}
+\addcontentsline{toc}{part}{UNIDAD TEMÁTICA II: Estructuras de Datos Lineales}
+\section*{2.1 Pila (Stack)}
+\addcontentsline{toc}{section}{2.1 Pila (Stack)}
+La Pila (Stack) es una estructura de datos lineal restringida donde todas las operaciones de inserción, consulta y eliminación de elementos se ejecutan exclusivamente en un único extremo denominado cima o tope (top). Esta restricción impone la disciplina de acceso LIFO (Last In, First Out — 'Último en entrar, primero en salir'), de modo que el elemento más recientemente insertado es el primero en ser extraído.\par
+\subsection*{2.1.1 Especificación genérica}
+\addcontentsline{toc}{subsection}{2.1.1 Especificación genérica}
+Matemáticamente, el TAD Pila se modela como una secuencia finita S = $\langle$a$_1$, a$_2$, ..., a$_n$$\rangle$ de elementos de tipo genérico T, donde a$_n$ representa la cima actual y a$_1$ la base. Su semántica queda completamente determinada por los axiomas algebraicos para toda pila S y todo elemento x $\in$ T: (1) IsEmpty(Create()) = true; (2) IsEmpty(Push(S, x)) = false; (3) Top(Push(S, x)) = x; y (4) Pop(Push(S, x)) = S.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.305\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Operación Abstracta} & \textbf{\color{ipnguinda}Firma en Interfaz Genérica} & \textbf{\color{ipnguinda}Precondición Formal} & \textbf{\color{ipnguinda}Efecto / Postcondición y Complejidad} \\
+\midrule
+\textbf{Crear / Constructor} & Stack<T>() & Ninguna (true) & Inicializa una pila vacía con n = 0 | $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{Apilar (Push)} & void push(const T\& x) & No llena (en estática) & Inserta x como nueva cima; incrementa n en 1 | $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{Desapilar (Pop)} & void pop() & !isEmpty() (n > 0) & Remueve el elemento en la cima; decrementa n en 1 | $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{Consultar Cima (Top)} & const T\& top() const & !isEmpty() (n > 0) & Retorna referencia constante a la cima sin modificar S | $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{Estado Vacío / Tamaño} & bool isEmpty() / size\_t size() & Ninguna (true) & Retorna (n == 0) y el cardinal n respectivamente | $\Theta$(1) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.1.2 Implementación estática}
+\addcontentsline{toc}{subsection}{2.1.2 Implementación estática}
+La implementación estática aloja los elementos en un arreglo contiguo de tamaño fijo Capacidad preasignado en tiempo de compilación y mantiene un registro entero tope\_ (inicializado en -1 para indexación base 0) que apunta al índice de la cima actual. Ofrece máxima localidad espacial en caché L1/L2 y cero sobrecarga de punteros por elemento, pero está sujeta a desbordamiento positivo (Stack Overflow) si se invoca push cuando tope\_ == Capacidad - 1.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Pila Estática Genérica Basada en Plantillas No-Tipo (Fixed-Capacity Stack en C++)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stdexcept>
+#include <array>
+
+template <typename T, std::size_t Capacidad>
+class PilaEstatica {
+private:
+    std::array<T, Capacidad> datos_;
+    int tope_ = -1; // -1 indica estado vacio en indexacion base 0
+
+public:
+    PilaEstatica() = default;
+
+    bool estaVacia() const noexcept { return tope_ == -1; }
+    bool estaLlena() const noexcept { return tope_ == static_cast<int>(Capacidad) - 1; }
+    std::size_t tamano() const noexcept { return static_cast<std::size_t>(tope_ + 1); }
+
+    void push(const T& x) {
+        if (estaLlena()) {
+            throw std::overflow_error("Stack Overflow: Capacidad estatica maxima alcanzada");
+        }
+        datos_[++tope_] = x; // Pre-incremento e insercion directa en Theta(1)
+    }
+
+    void pop() {
+        if (estaVacia()) {
+            throw std::underflow_error("Stack Underflow: Intento de pop sobre pila vacia");
+        }
+        --tope_; // Eliminacion logica en Theta(1) sin necesidad de borrar memoria fisica
+    }
+
+    const T& top() const {
+        if (estaVacia()) {
+            throw std::underflow_error("Stack Underflow: Intento de top sobre pila vacia");
+        }
+        return datos_[tope_];
+    }
+};
+
+int main() {
+    PilaEstatica<int, 5> pila;
+    pila.push(10); pila.push(20); pila.push(30);
+    std::cout << "Cima actual: " << pila.top() << " (Tamano: " << pila.tamano() << ")\n";
+    pila.pop();
+    std::cout << "Cima tras pop: " << pila.top() << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Asignación contigua sin heap (std::array<T, Capacidad>): }El bloque de memoria de tamaño Capacidad * sizeof(T) se aloja directamente en el segmento de pila o datos sin invocar new/malloc, garantizando latencia determinista $\Theta$(1).
+  \item \textbf{Control de estados límite mediante excepciones estándar: }Valida rigurosamente las precondiciones lanzando std::overflow\_error ante desbordamiento de capacidad y std::underflow\_error ante subdesbordamiento en pilas vacías.
+\end{itemize}
+\subsection*{2.1.3 Implementación dinámica}
+\addcontentsline{toc}{subsection}{2.1.3 Implementación dinámica}
+La implementación dinámica estructura la pila como una lista simplemente enlazada en el heap donde el puntero externo cima\_ apunta al primer nodo. Tanto push (insertar al inicio) como pop (extraer del inicio) manipulan exclusivamente el puntero cima\_ en tiempo constante estricto $\Theta$(1), creciendo de forma elástica sin límite fijo de compilación.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Pila Dinámica Enlazada con Gestión Segura de Memoria (RAII) en C++}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stdexcept>
+
+template <typename T>
+class PilaDinamica {
+private:
+    struct Nodo {
+        T dato;
+        Nodo* siguiente;
+        Nodo(const T& d, Nodo* sig = nullptr) : dato(d), siguiente(sig) {}
+    };
+    Nodo* cima_ = nullptr;
+    std::size_t n_ = 0;
+
+public:
+    PilaDinamica() = default;
+
+    // Destructor RAII: Garantiza cero fugas de memoria (Memory Leaks) al salir de ambito
+    ~PilaDinamica() { limpiar(); }
+
+    // Deshabilitar copia superficial para evitar doble liberacion (Double Free)
+    PilaDinamica(const PilaDinamica&) = delete;
+    PilaDinamica& operator=(const PilaDinamica&) = delete;
+
+    bool estaVacia() const noexcept { return cima_ == nullptr; }
+    std::size_t tamano() const noexcept { return n_; }
+
+    void push(const T& valor) {
+        cima_ = new Nodo(valor, cima_); // El nuevo nodo apunta a la antigua cima en Theta(1)
+        ++n_;
+    }
+
+    void pop() {
+        if (estaVacia()) {
+            throw std::underflow_error("Stack Underflow: Pila dinamica vacia");
+        }
+        Nodo* nodoRemovido = cima_;
+        cima_ = cima_->siguiente;
+        delete nodoRemovido; // Libera el nodo extraido en el heap
+        --n_;
+    }
+
+    const T& top() const {
+        if (estaVacia()) {
+            throw std::underflow_error("Stack Underflow: Pila dinamica vacia");
+        }
+        return cima_->dato;
+    }
+
+    void limpiar() noexcept {
+        while (!estaVacia()) {
+            Nodo* temp = cima_;
+            cima_ = cima_->siguiente;
+            delete temp;
+        }
+        n_ = 0;
+    }
+};
+
+int main() {
+    PilaDinamica<std::string> historial;
+    historial.push("https://ipn.mx");
+    historial.push("https://escom.ipn.mx");
+    std::cout << "Pagina activa: " << historial.top() << "\n";
+    historial.pop();
+    std::cout << "Tras regresar: " << historial.top() << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Reconectividad de punteros en $\Theta$(1): }La instrucción cima\_ = new Nodo(valor, cima\_) construye el nodo en el heap, enlaza su puntero siguiente hacia el nodo que antes ocupaba la cima y actualiza cima\_ en una sola expresión atómica.
+  \item \textbf{Principio RAII y prevención de fugas: }El destructor \textasciitilde{}PilaDinamica() invoca limpiar(), recorriendo y liberando los n\_ nodos dinámicos en $\Theta$(n). Además, se bloquea el constructor de copia por defecto para impedir copias superficiales de punteros crudos.
+\end{itemize}
+\subsection*{2.1.4 Nociones de complejidad de las operaciones}
+\addcontentsline{toc}{subsection}{2.1.4 Nociones de complejidad de las operaciones}
+Corrección técnica importante: En una pila implementada sobre un arreglo redimensionable (como std::vector en C++), cada operación push individual sin redimensionamiento tiene un costo estricto $\Theta$(1) (no $\Theta$(N)). Únicamente cuando el vector alcanza su capacidad máxima se reserva un nuevo bloque de tamaño 2$\cdot$Capacidad y se copian los N elementos en O(N). Mediante análisis amortizado (método contable o de función potencial Φ), el costo total de N inserciones consecutivas es N + $\sum$2$^k$ < 3N, lo que demuestra que el tiempo por operación push es O(1) amortizado.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.208\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Operación del TAD Pila} & \textbf{\color{ipnguinda}Pila Estática (Arreglo Fijo)} & \textbf{\color{ipnguinda}Pila Dinámica (Arreglo Redim.)} & \textbf{\color{ipnguinda}Pila Dinámica (Nodos Enlazados)} \\
+\midrule
+\textbf{push(x)} & $\Theta$(1) estricto & O(1) amortizado / O(n) peor caso & $\Theta$(1) estricto (con new) \\
+\addlinespace[3pt]
+\textbf{pop()} & $\Theta$(1) estricto & $\Theta$(1) estricto & $\Theta$(1) estricto (con delete) \\
+\addlinespace[3pt]
+\textbf{top() / isEmpty() / size()} & $\Theta$(1) estricto & $\Theta$(1) estricto & $\Theta$(1) estricto \\
+\addlinespace[3pt]
+\textbf{clear() (Vaciar)} & $\Theta$(1) (tope = -1) & $\Theta$(n) (destructores de objetos) & $\Theta$(n) (liberación de n nodos) \\
+\addlinespace[3pt]
+\textbf{Espacio Total en RAM} & $\Theta$(Capacidad) fijo & $\Theta$(n) contiguo (factor $\le$ 2n) & $\Theta$(n) + 1 puntero por nodo \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.1.5 Aplicaciones}
+\addcontentsline{toc}{subsection}{2.1.5 Aplicaciones}
+Las pilas constituyen el núcleo algorítmico de (1) la gestión de registros de activación (Stack Frames) en la pila de llamadas del sistema y la eliminación de la recursividad; (2) la verificación sintáctica de delimitadores balanceados en compiladores; y (3) el algoritmo Shunting-Yard de Edsger Dijkstra para traducir expresiones aritméticas infijas a Notación Polaca Inversa (postfija, RPN) y su evaluación en una sola pasada lineal $\Theta$(n).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Verificación de Balanceo de Delimitadores y Evaluación de Expresiones Postfijas (RPN)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <cmath>
+#include <stdexcept>
+
+// Aplicacion 1: Validacion lexico-sintactica de simbolos de agrupacion en Theta(n)
+bool delimitadoresBalanceados(const std::string& expr) {
+    std::stack<char> pila;
+    for (char c : expr) {
+        if (c == '(' || c == '[' || c == '{') {
+            pila.push(c);
+        } else if (c == ')' || c == ']' || c == '}') {
+            if (pila.empty()) return false; // Cierre sin apertura previa
+            char a = pila.top();
+            pila.pop();
+            if ((c == ')' && a != '(') || (c == ']' && a != '[') || (c == '}' && a != '{')) {
+                return false; // Discrepancia de tipo de delimitador
+            }
+        }
+    }
+    return pila.empty();
+}
+
+// Aplicacion 2: Evaluador de Notacion Polaca Inversa (Postfija / RPN) en Theta(n)
+double evaluarPostfijaRPN(const std::string& exprRPN) {
+    std::stack<double> operandos;
+    std::istringstream iss(exprRPN);
+    std::string token;
+
+    while (iss >> token) {
+        if (token == "+" || token == "-" || token == "*" || token == "/" || token == "^") {
+            if (operandos.size() < 2) throw std::runtime_error("Expresion RPN mal formada");
+            double opDer = operandos.top(); operandos.pop(); // Primero en salir: operando derecho
+            double opIzq = operandos.top(); operandos.pop(); // Segundo en salir: operando izquierdo
+            if (token == "+") operandos.push(opIzq + opDer);
+            else if (token == "-") operandos.push(opIzq - opDer);
+            else if (token == "*") operandos.push(opIzq * opDer);
+            else if (token == "/") operandos.push(opIzq / opDer);
+            else if (token == "^") operandos.push(std::pow(opIzq, opDer));
+        } else {
+            operandos.push(std::stod(token));
+        }
+    }
+    return operandos.top();
+}
+
+int main() {
+    std::string codigo = "{ a[i] = (b + c) * (d - e); }";
+    std::cout << "Balanceo valido: " << (delimitadoresBalanceados(codigo) ? "SI" : "NO") << "\n";
+    // Expresion infija: ((5 + 3) * 2) - 4  --> RPN: "5 3 + 2 * 4 -" = 12
+    std::cout << "Resultado RPN  : " << evaluarPostfijaRPN("5 3 + 2 * 4 -") << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{No conmutatividad de operandos en RPN: }Al extraer dos operandos de la pila para un operador binario no conmutativo (-, /, \textasciicircum{}), el elemento en la cima corresponde al operando derecho (opDer) y el inmediato inferior al operando izquierdo (opIzq), evaluándose opIzq $\theta$ opDer.
+  \item \textbf{Complejidad lineal $\Theta$(n): }Cada token o carácter de la cadena se apila a lo sumo una vez y se desapila a lo sumo una vez, garantizando tiempo y espacio O(n).
+\end{itemize}
+\section*{2.2 Cola (Queue)}
+\addcontentsline{toc}{section}{2.2 Cola (Queue)}
+La Cola (Queue) es una estructura de datos lineal donde las inserciones se efectúan exclusivamente por un extremo denominado final o parte posterior (rear / back / tail) y las eliminaciones o consultas por el extremo opuesto denominado frente o cabeza (front / head). Opera bajo la disciplina estricta FIFO (First In, First Out — 'Primero en entrar, primero en salir').\par
+\subsection*{2.2.1 Especificación genérica}
+\addcontentsline{toc}{subsection}{2.2.1 Especificación genérica}
+El TAD Cola modela una secuencia Q = $\langle$a$_1$, a$_2$, ..., a$_n$$\rangle$ sobre un tipo genérico T donde a$_1$ es el frente y a$_n$ es el final. Sus axiomas algebraicos establecen que para toda cola Q y elementos x, y $\in$ T: (1) IsEmpty(Create()) = true; (2) IsEmpty(Enqueue(Q, x)) = false; (3) Front(Enqueue(Create(), x)) = x; (4) Dequeue(Enqueue(Create(), x)) = Create(); y (5) si !IsEmpty(Q), entonces Front(Enqueue(Q, x)) = Front(Q).\par
+\subsection*{2.2.2 Implementación estática}
+\addcontentsline{toc}{subsection}{2.2.2 Implementación estática}
+Si una cola estática se implementa en un arreglo lineal sin rotación, desencolar desplaza el índice frente hacia la derecha dejando celdas vacías irrecuperables al inicio (o exige desplazar n - 1 elementos en $\Theta$(n)). La solución canónica es el Arreglo Circular (Ring Buffer), donde los índices frente\_ y final\_ avanzan mediante aritmética modular: siguiente(i) = (i + 1) mod Capacidad, manteniendo un contador explícito n\_ para distinguir sin ambigüedad el estado vacío (n\_ == 0) del estado lleno (n\_ == Capacidad).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Cola Estática Circular (Ring Buffer) en Tiempo Constante $\Theta$(1)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <array>
+#include <stdexcept>
+
+template <typename T, std::size_t Capacidad>
+class ColaCircularEstatica {
+private:
+    std::array<T, Capacidad> buffer_;
+    std::size_t frente_ = 0;
+    std::size_t final_ = 0;
+    std::size_t n_ = 0; // Resuelve la ambigüedad frente_ == final_ aprovechando el 100% del arreglo
+
+public:
+    ColaCircularEstatica() = default;
+
+    bool estaVacia() const noexcept { return n_ == 0; }
+    bool estaLlena() const noexcept { return n_ == Capacidad; }
+    std::size_t tamano() const noexcept { return n_; }
+
+    void enqueue(const T& x) {
+        if (estaLlena()) {
+            throw std::overflow_error("Queue Overflow: Buffer circular lleno");
+        }
+        buffer_[final_] = x;
+        final_ = (final_ + 1) % Capacidad; // Avance modular en Theta(1)
+        ++n_;
+    }
+
+    void dequeue() {
+        if (estaVacia()) {
+            throw std::underflow_error("Queue Underflow: Buffer circular vacio");
+        }
+        frente_ = (frente_ + 1) % Capacidad; // Avance modular del frente en Theta(1)
+        --n_;
+    }
+
+    const T& front() const {
+        if (estaVacia()) {
+            throw std::underflow_error("Queue Underflow: Buffer circular vacio");
+        }
+        return buffer_[frente_];
+    }
+};
+
+int main() {
+    ColaCircularEstatica<int, 3> ring;
+    ring.enqueue(10); ring.enqueue(20); ring.enqueue(30);
+    ring.dequeue(); // Libera la casilla 0
+    ring.enqueue(40); // Da la vuelta circularmente y ocupa la casilla 0
+    while (!ring.estaVacia()) {
+        std::cout << ring.front() << " ";
+        ring.dequeue();
+    }
+    std::cout << "\n"; // Imprime: 20 30 40
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Aritmética modular de anillo Z\_Capacidad: }La transición (indice + 1) \% Capacidad envuelve automáticamente el índice desde Capacidad - 1 hacia 0, eliminando por completo cualquier desplazamiento de elementos.
+  \item \textbf{Aprovechamiento del 100\% de celdas: }Al mantener el atributo contador n\_, no es necesario sacrificar una casilla vacía para diferenciar cola llena de cola vacía, logrando operaciones enqueue, dequeue y front en $\Theta$(1) estricto.
+\end{itemize}
+\subsection*{2.2.3 Implementación dinámica}
+\addcontentsline{toc}{subsection}{2.2.3 Implementación dinámica}
+La implementación dinámica enlaza nodos en memoria dinámica manteniendo obligatoriamente dos punteros externos: frente\_ (apunta al primer nodo para extraer en $\Theta$(1)) y final\_ (apunta al último nodo para insertar en $\Theta$(1) sin recorrer la lista).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Cola Dinámica Enlazada con Doble Puntero Exterior (Frente y Final)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stdexcept>
+
+template <typename T>
+class ColaDinamica {
+private:
+    struct Nodo {
+        T dato;
+        Nodo* siguiente;
+        explicit Nodo(const T& d) : dato(d), siguiente(nullptr) {}
+    };
+    Nodo* frente_ = nullptr;
+    Nodo* final_ = nullptr;
+    std::size_t n_ = 0;
+
+public:
+    ColaDinamica() = default;
+    ~ColaDinamica() { while (!estaVacia()) dequeue(); }
+
+    ColaDinamica(const ColaDinamica&) = delete;
+    ColaDinamica& operator=(const ColaDinamica&) = delete;
+
+    bool estaVacia() const noexcept { return frente_ == nullptr; }
+    std::size_t tamano() const noexcept { return n_; }
+
+    void enqueue(const T& x) {
+        Nodo* nuevo = new Nodo(x);
+        if (estaVacia()) {
+            frente_ = final_ = nuevo; // Caso especial: primer nodo ingresado
+        } else {
+            final_->siguiente = nuevo; // Enlaza al final actual en Theta(1)
+            final_ = nuevo;            // Actualiza el puntero final_
+        }
+        ++n_;
+    }
+
+    void dequeue() {
+        if (estaVacia()) {
+            throw std::underflow_error("Queue Underflow: Cola dinamica vacia");
+        }
+        Nodo* temp = frente_;
+        frente_ = frente_->siguiente;
+        if (frente_ == nullptr) {
+            final_ = nullptr; // Critico: si la cola quedo vacia, anular tambien final_
+        }
+        delete temp;
+        --n_;
+    }
+
+    const T& front() const {
+        if (estaVacia()) throw std::underflow_error("Cola vacia");
+        return frente_->dato;
+    }
+};
+
+int main() {
+    ColaDinamica<std::string> spooler;
+    spooler.enqueue("Reporte_Anual.pdf");
+    spooler.enqueue("Tesis_IPN.docx");
+    std::cout << "Imprimiendo: " << spooler.front() << "\n";
+    spooler.dequeue();
+    std::cout << "Siguiente  : " << spooler.front() << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Sincronización de punteros en estados frontera: }En dequeue(), cuando se extrae el único nodo restante de la cola, frente\_ pasa a ser nullptr. Es indispensable actualizar también final\_ = nullptr para evitar que final\_ quede como un puntero colgante (dangling pointer) hacia memoria liberada.
+\end{itemize}
+\subsection*{2.2.4 Colas de prioridad}
+\addcontentsline{toc}{subsection}{2.2.4 Colas de prioridad}
+Una Cola de Prioridad (Priority Queue) es un TAD que almacena elementos asociados a una clave de prioridad p, donde la operación de extracción remueve siempre el elemento de máxima (Max-Priority Queue) o mínima prioridad (Min-Priority Queue). Su implementación canónica mediante un Montículo Binario (Binary Heap) sobre un arreglo contiguo logra inserción (insert / sift-up) y extracción del extremo (extract / sift-down) en tiempo logarítmico O(log n), y consulta del elemento prioritario (top) en $\Theta$(1).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Cola de Prioridad de Mínimo (Min-Priority Queue) para Planificación de Tareas}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <string>
+
+struct Proceso {
+    int prioridad;        // Menor valor numerico = mayor urgencia (Tiempo Real)
+    int ordenLlegada;     // Desempate FIFO estricto ante igual prioridad
+    std::string nombre;
+
+    // Sobrecarga para Min-Heap: retorna true si 'this' tiene MENOR urgencia que 'otro'
+    bool operator>(const Proceso& otro) const {
+        if (prioridad != otro.prioridad) return prioridad > otro.prioridad;
+        return ordenLlegada > otro.ordenLlegada;
+    }
+};
+
+int main() {
+    std::priority_queue<Proceso, std::vector<Proceso>, std::greater<Proceso>> planificador;
+
+    planificador.push({3, 1, "Backup_Disco_Batch"});
+    planificador.push({1, 2, "Interrupcion_Kernel_IO"});
+    planificador.push({2, 3, "Renderizado_UI"});
+    planificador.push({1, 4, "Control_Frenos_ABS"});
+
+    while (!planificador.empty()) {
+        const auto& p = planificador.top();
+        std::cout << "[Prioridad " << p.prioridad << " | Llegada " << p.ordenLlegada
+                  << "] Ejecutando: " << p.nombre << "\n";
+        planificador.pop();
+    }
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Estabilidad FIFO en colas de prioridad: }Un montículo binario estándar no preserva por sí solo el orden de llegada entre claves iguales. Al incluir el campo monótono ordenLlegada como segundo criterio lexicográfico en operator>, se garantiza desempate FIFO exacto en O(log n).
+\end{itemize}
+\subsection*{2.2.5 Nociones de complejidad de las operaciones}
+\addcontentsline{toc}{subsection}{2.2.5 Nociones de complejidad de las operaciones}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.249\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Representación Física} & \textbf{\color{ipnguinda}Insertar (Enqueue)} & \textbf{\color{ipnguinda}Extraer (Dequeue / Extract)} & \textbf{\color{ipnguinda}Consultar Frente / Tope} & \textbf{\color{ipnguinda}Memoria Total} \\
+\midrule
+\textbf{Arreglo Lineal (Desplazando)} & $\Theta$(1) & $\Theta$(n) (desplaza n-1 elems) & $\Theta$(1) & $\Theta$(Capacidad) \\
+\addlinespace[3pt]
+\textbf{Cola Estática (Arreglo Circular)} & $\Theta$(1) & $\Theta$(1) & $\Theta$(1) & $\Theta$(Capacidad) \\
+\addlinespace[3pt]
+\textbf{Cola Dinámica (Doble Puntero)} & $\Theta$(1) & $\Theta$(1) & $\Theta$(1) & $\Theta$(n) elástico \\
+\addlinespace[3pt]
+\textbf{Cola Prioridad (Lista Desord.)} & $\Theta$(1) & $\Theta$(n) (búsqueda lineal) & $\Theta$(n) & $\Theta$(n) \\
+\addlinespace[3pt]
+\textbf{Cola Prioridad (Lista Ordenada)} & O(n) (inserción) & $\Theta$(1) & $\Theta$(1) & $\Theta$(n) \\
+\addlinespace[3pt]
+\textbf{Cola Prioridad (Montículo Heap)} & O(log n) & O(log n) & $\Theta$(1) & $\Theta$(n) contiguo \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.2.6 Aplicaciones}
+\addcontentsline{toc}{subsection}{2.2.6 Aplicaciones}
+Las colas gobiernan la planificación de CPU por turnos (Round-Robin Scheduling), los buffers asíncronos Productor-Consumidor de E/S, la simulación de eventos discretos y la exploración por niveles (BFS).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Simulador de Planificación de CPU Round-Robin con Cuanto de Tiempo (Quantum) Configurable}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+struct TareaCPU {
+    std::string id;
+    int tiempoRestante;
+};
+
+void simularRoundRobin(std::vector<TareaCPU> tareas, int quantum) {
+    std::queue<TareaCPU> colaListos;
+    for (const auto& t : tareas) colaListos.push(t);
+
+    int relojGlobal = 0;
+    while (!colaListos.empty()) {
+        TareaCPU actual = colaListos.front();
+        colaListos.pop();
+
+        int ejecutado = std::min(quantum, actual.tiempoRestante);
+        relojGlobal += ejecutado;
+        actual.tiempoRestante -= ejecutado;
+
+        std::cout << "[t=" << relojGlobal << "ms] Proceso " << actual.id
+                  << " ejecuto " << ejecutado << "ms (Restante: " << actual.tiempoRestante << "ms)\n";
+
+        // Si el proceso no ha terminado su rafaga de CPU, reingresa al final de la cola FIFO
+        if (actual.tiempoRestante > 0) {
+            colaListos.push(actual);
+        }
+    }
+}
+
+int main() {
+    simularRoundRobin({{"P1", 10}, {"P2", 4}, {"P3", 7}}, 4);
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Justicia temporal y ausencia de inanición (Starvation-free): }Cada proceso en el frente recibe a lo sumo q unidades de CPU en $\Theta$(1). Si su ráfaga restante supera q, es expropiado (preempted) y reencolado al final, garantizando un tiempo de respuesta máximo de (n - 1)$\cdot$q para n procesos activos.
+\end{itemize}
+\section*{2.3 Listas (Lists)}
+\addcontentsline{toc}{section}{2.3 Listas (Lists)}
+El Tipo de Dato Abstracto (TAD) Lista representa una secuencia lineal finita L = $\langle$a$_1$, a$_2$, ..., a$_n$$\rangle$ de elementos de tipo genérico T donde, a diferencia de las pilas y colas, se permite consultar, insertar y suprimir elementos en cualquier posición arbitraria p de la secuencia.\par
+\subsection*{2.3.1 Especificación genérica}
+\addcontentsline{toc}{subsection}{2.3.1 Especificación genérica}
+Nota curricular: En el programa sintético original aparece impreso como '2.2.1 Especificación genérica' bajo el bloque 2.3 Listas; aquí se numera correctamente como 2.3.1 y se desarrolla la especificación formal del TAD Lista.\par
+La especificación genérica del TAD Lista se fundamenta en el concepto abstracto de Posición o Iterador (Position / Iterator), que abstrae el identificador de ubicación (un índice entero en arreglos o la dirección de un nodo en memoria dinámica). Define una posición centinela end() situada inmediatamente después del último elemento a$_n$.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Operaciones de navegación posicional: }first() devuelve la posición de a$_1$ (o end() si está vacía); end() devuelve la posición pasada el final; next(p) y prev(p) desplazan el iterador al sucesor o predecesor inmediato en $\Theta$(1).
+  \item \textbf{Operaciones mutadoras por posición: }insert(p, x) inserta el valor x inmediatamente antes de la posición p; erase(p) elimina el elemento en la posición p y devuelve el iterador al elemento subsiguiente.
+  \item \textbf{Axiomas fundamentales: }Para toda lista vacía L$_0$ = Create(): isEmpty(L$_0$) = true y first(L$_0$) = end(L$_0$). Para toda posición válida p: retrieve(insert(L, p, x), p) = x.
+\end{itemize}
+\subsection*{2.3.2 Listas simplemente enlazadas}
+\addcontentsline{toc}{subsection}{2.3.2 Listas simplemente enlazadas}
+Una lista simplemente enlazada (Singly Linked List) almacena cada elemento en un nodo asignado dinámicamente en el heap compuesto por el dato útil (dato) y un único puntero de enlace (siguiente) dirigido al nodo sucesor. El último nodo fija su enlace a nullptr.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Inserción y eliminación al frente: }Se ejecutan en tiempo constante estricto $\Theta$(1) actualizando el puntero cabeza\_.
+  \item \textbf{Inserción o eliminación tras un nodo conocido p: }Se ejecuta en $\Theta$(1) redirigiendo p->siguiente. Sin embargo, eliminar el nodo p directamente sin conocer su predecesor exige un barrido desde cabeza\_ en O(n).
+  \item \textbf{Uso de Nodo Cabeza o Centinela (Header / Dummy Node): }Colocar un nodo ficticio permanente al inicio garantiza que todo nodo de datos posea un nodo predecesor válido, eliminando las bifurcaciones condicionales especiales para el primer elemento.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Lista Simplemente Enlazada Genérica con Inserción, Eliminación e Inversión In-Place O(n)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stdexcept>
+
+template <typename T>
+class ListaSimple {
+private:
+    struct Nodo {
+        T dato;
+        Nodo* siguiente;
+        Nodo(const T& d, Nodo* sig = nullptr) : dato(d), siguiente(sig) {}
+    };
+    Nodo* cabeza_ = nullptr;
+    std::size_t n_ = 0;
+
+public:
+    ListaSimple() = default;
+    ~ListaSimple() {
+        while (cabeza_ != nullptr) {
+            Nodo* temp = cabeza_;
+            cabeza_ = cabeza_->siguiente;
+            delete temp;
+        }
+    }
+
+    void insertarInicio(const T& x) {
+        cabeza_ = new Nodo(x, cabeza_); // Theta(1)
+        ++n_;
+    }
+
+    void insertarFinal(const T& x) {
+        Nodo* nuevo = new Nodo(x, nullptr);
+        if (!cabeza_) {
+            cabeza_ = nuevo;
+        } else {
+            Nodo* actual = cabeza_;
+            while (actual->siguiente != nullptr) actual = actual->siguiente;
+            actual->siguiente = nuevo; // Theta(n) sin puntero cola; Theta(1) si se mantiene puntero cola
+        }
+        ++n_;
+    }
+
+    bool eliminarValor(const T& x) {
+        Nodo* actual = cabeza_;
+        Nodo* previo = nullptr;
+        while (actual != nullptr && actual->dato != x) {
+            previo = actual;
+            actual = actual->siguiente;
+        }
+        if (actual == nullptr) return false; // No encontrado
+        if (previo == nullptr) cabeza_ = actual->siguiente; // Era el primer nodo
+        else previo->siguiente = actual->siguiente;         // Puentea el nodo intermedio
+        delete actual;
+        --n_;
+        return true;
+    }
+
+    // Algoritmo clasico de inversion en sitio (In-Place Reversal): Tiempo Theta(n), Espacio Auxiliar Theta(1)
+    void invertirInPlace() noexcept {
+        Nodo* previo = nullptr;
+        Nodo* actual = cabeza_;
+        while (actual != nullptr) {
+            Nodo* siguienteTemp = actual->siguiente; // 1. Preserva el resto de la lista
+            actual->siguiente = previo;              // 2. Invierte la flecha hacia atras
+            previo = actual;                         // 3. Avanza previo
+            actual = siguienteTemp;                  // 4. Avanza actual
+        }
+        cabeza_ = previo;
+    }
+
+    void imprimir() const {
+        for (Nodo* p = cabeza_; p != nullptr; p = p->siguiente) std::cout << p->dato << " -> ";
+        std::cout << "nullptr\n";
+    }
+};
+
+int main() {
+    ListaSimple<int> L;
+    L.insertarFinal(10); L.insertarFinal(20); L.insertarFinal(30);
+    L.imprimir();
+    L.invertirInPlace();
+    L.imprimir(); // 30 -> 20 -> 10 -> nullptr
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Técnica de doble puntero de arrastre (previo, actual): }En eliminarValor, dado que los enlaces son unidireccionales, el puntero previo conserva la dirección del nodo anterior para poder ejecutar previo->siguiente = actual->siguiente en cuanto se localiza el objetivo.
+  \item \textbf{Inversión en sitio con tres punteros (invertirInPlace): }Recorre la lista una sola vez invirtiendo el sentido de cada puntero siguiente sin reservar ningún nodo adicional en el heap, alcanzando complejidad temporal $\Theta$(n) y espacial $\Theta$(1).
+\end{itemize}
+\subsection*{2.3.3 Listas doblemente enlazadas}
+\addcontentsline{toc}{subsection}{2.3.3 Listas doblemente enlazadas}
+Una lista doblemente enlazada (Doubly Linked List, como std::list en la STL de C++) dota a cada nodo de dos punteros: siguiente (hacia el sucesor) y anterior (hacia el predecesor). Su diseño profesional emplea dos nodos centinela permanentes (cabezaCentinela\_ y colaCentinela\_) que eliminan todos los casos borde de punteros nulos y permiten insertar o eliminar cualquier nodo referenciado p en tiempo constante estricto $\Theta$(1).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Lista Doblemente Enlazada con Nodos Centinela (Header \& Trailer Sentinels) en $\Theta$(1)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+
+template <typename T>
+class ListaDobleCentinela {
+public:
+    struct Nodo {
+        T dato;
+        Nodo* anterior;
+        Nodo* siguiente;
+        Nodo(const T& d = T{}, Nodo* ant = nullptr, Nodo* sig = nullptr)
+            : dato(d), anterior(ant), siguiente(sig) {}
+    };
+
+private:
+    Nodo* cabeza_; // Centinela izquierdo (Header Dummy)
+    Nodo* cola_;   // Centinela derecho  (Trailer Dummy)
+    std::size_t n_ = 0;
+
+    // Inserta un nuevo nodo con valor x inmediatamente antes del nodo 'sucesor' en Theta(1)
+    Nodo* insertarAntesDe(Nodo* sucesor, const T& x) {
+        Nodo* predecesor = sucesor->anterior;
+        Nodo* nuevo = new Nodo(x, predecesor, sucesor);
+        predecesor->siguiente = nuevo;
+        sucesor->anterior = nuevo;
+        ++n_;
+        return nuevo;
+    }
+
+public:
+    ListaDobleCentinela() {
+        cabeza_ = new Nodo();
+        cola_ = new Nodo();
+        cabeza_->siguiente = cola_;
+        cola_->anterior = cabeza_;
+    }
+
+    ~ListaDobleCentinela() {
+        while (cabeza_->siguiente != cola_) eliminarNodo(cabeza_->siguiente);
+        delete cabeza_;
+        delete cola_;
+    }
+
+    Nodo* pushFront(const T& x) { return insertarAntesDe(cabeza_->siguiente, x); }
+    Nodo* pushBack(const T& x)  { return insertarAntesDe(cola_, x); }
+
+    // Eliminacion directa de cualquier nodo en Theta(1) sin buscar su predecesor
+    void eliminarNodo(Nodo* p) {
+        p->anterior->siguiente = p->siguiente;
+        p->siguiente->anterior = p->anterior;
+        delete p;
+        --n_;
+    }
+
+    void imprimirAdelanteYAtras() const {
+        std::cout << "Adelante: ";
+        for (Nodo* p = cabeza_->siguiente; p != cola_; p = p->siguiente) std::cout << p->dato << " ";
+        std::cout << "| Atras: ";
+        for (Nodo* p = cola_->anterior; p != cabeza_; p = p->anterior) std::cout << p->dato << " ";
+        std::cout << "\n";
+    }
+};
+
+int main() {
+    ListaDobleCentinela<int> dl;
+    auto* n1 = dl.pushBack(100);
+    auto* n2 = dl.pushBack(200);
+    dl.pushBack(300);
+    dl.eliminarNodo(n2); // Elimina el 200 directamente en Theta(1) usando su puntero
+    dl.imprimirAdelanteYAtras();
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Simetría estructural con centinelas cabeza\_ y cola\_: }Todo nodo real queda siempre encerrado entre dos nodos válidos (predecesor y sucesor). Gracias a ello, insertarAntesDe y eliminarNodo carecen por completo de instrucciones if (p == nullptr), ejecutando 4 y 2 asignaciones de punteros respectivamente en $\Theta$(1).
+\end{itemize}
+\subsection*{2.3.4 Listas circulares}
+\addcontentsline{toc}{subsection}{2.3.4 Listas circulares}
+En una lista circular simplemente enlazada, el puntero siguiente del último nodo apunta de regreso al primer nodo de la lista en lugar de a nullptr, conformando un anillo topológico cerrado. Un diseño técnico óptimo mantiene un único puntero externo cola\_ (apuntando al último nodo), de modo que cola\_->siguiente referencia automáticamente al primer nodo (cabeza), permitiendo insertar tanto al inicio como al final en tiempo constante $\Theta$(1) con un solo puntero externo.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Lista Circular con Puntero a Cola y Resolución del Problema de Flavio Josefo}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+
+template <typename T>
+class ListaCircular {
+private:
+    struct Nodo {
+        T dato;
+        Nodo* siguiente;
+        explicit Nodo(const T& d) : dato(d), siguiente(nullptr) {}
+    };
+    Nodo* cola_ = nullptr; // cola_->siguiente es siempre la cabeza de la lista circular
+    std::size_t n_ = 0;
+
+public:
+    ~ListaCircular() {
+        if (!cola_) return;
+        Nodo* actual = cola_->siguiente;
+        cola_->siguiente = nullptr; // Rompe el ciclo para liberar linealmente
+        while (actual) {
+            Nodo* t = actual;
+            actual = actual->siguiente;
+            delete t;
+        }
+    }
+
+    void insertarFinal(const T& x) {
+        Nodo* nuevo = new Nodo(x);
+        if (!cola_) {
+            nuevo->siguiente = nuevo; // Auto-referencia inicial de anillo de 1 nodo
+            cola_ = nuevo;
+        } else {
+            nuevo->siguiente = cola_->siguiente; // Apunta a la antigua cabeza
+            cola_->siguiente = nuevo;            // El antiguo ultimo apunta al nuevo
+            cola_ = nuevo;                       // El nuevo pasa a ser la cola
+        }
+        ++n_;
+    }
+
+    // Simulacion del problema de Josefo: elimina cada k-esimo nodo hasta quedar 1 superviviente
+    T resolverJosefo(int pasoK) {
+        Nodo* prev = cola_;
+        Nodo* actual = cola_->siguiente;
+        while (n_ > 1) {
+            for (int c = 1; c < pasoK; ++c) {
+                prev = actual;
+                actual = actual->siguiente;
+            }
+            prev->siguiente = actual->siguiente;
+            if (actual == cola_) cola_ = prev;
+            delete actual;
+            actual = prev->siguiente;
+            --n_;
+        }
+        return cola_->dato;
+    }
+};
+
+int main() {
+    ListaCircular<int> circulo;
+    for (int i = 1; i <= 7; ++i) circulo.insertarFinal(i);
+    std::cout << "Superviviente de Josefo (N=7, K=3): " << circulo.resolverJosefo(3) << "\n"; // 4
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Doble acceso en $\Theta$(1) mediante puntero único cola\_: }Mantener la referencia en cola\_ en vez de cabeza\_ ofrece acceso instantáneo tanto al final (cola\_) como al inicio (cola\_->siguiente), permitiendo insertar al frente o al fondo en $\Theta$(1) sin recorrer el anillo.
+\end{itemize}
+\subsection*{2.3.5 Arreglos y vectores vs listas}
+\addcontentsline{toc}{subsection}{2.3.5 Arreglos y vectores vs listas}
+La elección entre contenedores contiguos (arreglos estáticos y vectores dinámicos como std::vector) y estructuras enlazadas (std::forward\_list, std::list) involucra un compromiso fundamental entre localidad de referencia en la jerarquía de caché del procesador e invalidación de iteradores/costo de inserción intermedia.\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.249\linewidth}>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Dimensión Técnica} & \textbf{\color{ipnguinda}Arreglo / Vector Dinámico (std::vector)} & \textbf{\color{ipnguinda}Lista Simplemente Enlazada} & \textbf{\color{ipnguinda}Lista Doblemente Enlazada (std::list)} \\
+\midrule
+\textbf{Disposición en Memoria} & Bloque contiguo único en RAM & Nodos dispersos en el heap & Nodos dispersos en el heap \\
+\addlinespace[3pt]
+\textbf{Localidad Espacial (Caché)} & Excelente (Prefetching en caché L1/L2) & Baja (Cache misses por saltos de puntero) & Baja (Saltos no contiguos en RAM) \\
+\addlinespace[3pt]
+\textbf{Acceso por Índice A[i]} & $\Theta$(1) aritmética de punteros base + i & $\Theta$(i) recorrido secuencial obligatorio & $\Theta$(min(i, n-i)) recorrido secuencial \\
+\addlinespace[3pt]
+\textbf{Inserción/Borrado en Medio} & O(n) (desplaza elementos contiguos) & $\Theta$(1) tras localizar el nodo previo & $\Theta$(1) dado el puntero/iterador al nodo \\
+\addlinespace[3pt]
+\textbf{Sobrecarga por Elemento} & 0 bytes por elemento (cap. libre $\le$ 2x) & 8 bytes (1 puntero de 64 bits / nodo) & 16 bytes (2 punteros de 64 bits / nodo) \\
+\addlinespace[3pt]
+\textbf{Estabilidad de Iteradores} & Se invalidan al redimensionar o insertar & No se invalidan (salvo el nodo borrado) & No se invalidan (salvo el nodo borrado) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.3.6 Nociones de complejidad de las operaciones}
+\addcontentsline{toc}{subsection}{2.3.6 Nociones de complejidad de las operaciones}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.249\linewidth}>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.208\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Operación Primitiva} & \textbf{\color{ipnguinda}Vector Dinámico (std::vector)} & \textbf{\color{ipnguinda}Lista Simple (con cabeza y cola)} & \textbf{\color{ipnguinda}Lista Doble / Circular Doble} \\
+\midrule
+\textbf{push\_front(x) (Insertar inicio)} & $\Theta$(n) (desplaza n elementos) & $\Theta$(1) & $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{pop\_front() (Eliminar inicio)} & $\Theta$(n) (desplaza n-1 elementos) & $\Theta$(1) & $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{push\_back(x) (Insertar final)} & O(1) amortizado / O(n) peor caso & $\Theta$(1) (con puntero cola) & $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{pop\_back() (Eliminar final)} & $\Theta$(1) & $\Theta$(n) (debe buscar penúltimo) & $\Theta$(1) \\
+\addlinespace[3pt]
+\textbf{insert(p, x) / erase(p)} & O(n) & $\Theta$(1) (insert\_after) / O(n) (erase) & $\Theta$(1) estricto \\
+\addlinespace[3pt]
+\textbf{search(x) (Búsqueda por valor)} & O(n) (o O(log n) si está ordenado) & O(n) & O(n) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.3.7 Implementaciones y aplicaciones}
+\addcontentsline{toc}{subsection}{2.3.7 Implementaciones y aplicaciones}
+Las listas enlazadas resultan esenciales en: (1) el álgebra simbólica de polinomios dispersos P(x) = $\sum$ c$_i$ x\textasciicircum{}(e$_i$) con exponentes muy grandes donde un arreglo desperdiciaría gigabytes de ceros; (2) las listas de bloques libres (Free Lists) en asignadores de memoria del sistema operativo; (3) las colas LRU (Least Recently Used) donde una lista doblemente enlazada combinada con una tabla hash permite promover páginas usadas al frente en $\Theta$(1); y (4) las listas de adyacencia en grafos dispersos.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Suma Simbólica de Polinomios Dispersos mediante Listas Enlazadas Ordenadas en O(n + m)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <list>
+
+struct Termino {
+    double coef;
+    int exp;
+};
+
+using Polinomio = std::list<Termino>; // Ordenado decrecientemente por exponente
+
+Polinomio sumarPolinomios(const Polinomio& P, const Polinomio& Q) {
+    Polinomio R;
+    auto itP = P.begin();
+    auto itQ = Q.begin();
+
+    while (itP != P.end() && itQ != Q.end()) {
+        if (itP->exp > itQ->exp) {
+            R.push_back(*itP++);
+        } else if (itQ->exp > itP->exp) {
+            R.push_back(*itQ++);
+        } else {
+            double sumaCoef = itP->coef + itQ->coef;
+            if (sumaCoef != 0.0) { // Suprime terminos que se cancelan mutuamente
+                R.push_back({sumaCoef, itP->exp});
+            }
+            ++itP; ++itQ;
+        }
+    }
+    while (itP != P.end()) R.push_back(*itP++);
+    while (itQ != Q.end()) R.push_back(*itQ++);
+    return R;
+}
+
+int main() {
+    // P(x) = 4x^1000 + 3x^50 - 2x + 7  (en un arreglo requeriria 1001 celdas; aqui solo 4 nodos)
+    Polinomio P = {{4.0, 1000}, {3.0, 50}, {-2.0, 1}, {7.0, 0}};
+    Polinomio Q = {{5.0, 1000}, {-3.0, 50}, {8.0, 2}, {1.0, 0}};
+    Polinomio S = sumarPolinomios(P, Q);
+
+    for (const auto& t : S) std::cout << "(" << t.coef << "x^" << t.exp << ") ";
+    std::cout << "\n"; // (9x^1000) (8x^2) (-2x^1) (8x^0)
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Compresión estructural de datos dispersos: }Representar un polinomio de grado 1000 con solo 4 términos no nulos requiere exactamente 4 nodos enlazados en lugar de 1001 celdas contiguas. La fusión ordenada avanza dos iteradores en paralelo con complejidad óptima $\Theta$(|P| + |Q|).
+\end{itemize}
+\section*{2.4 Tablas hash (Hash Tables)}
+\addcontentsline{toc}{section}{2.4 Tablas hash (Hash Tables)}
+Una Tabla Hash (o Tabla de Dispersión) es una estructura de datos que implementa el TAD Diccionario o Mapa Asociativo, permitiendo insertar, buscar y eliminar pares (clave, valor) en tiempo esperado constante O(1). A diferencia de los arreglos de direccionamiento directo (que exigen un arreglo de tamaño |U| igual al universo total de claves posibles), una tabla hash proyecta un universo gigantesco de claves U sobre un arreglo compacto de m cubetas o ranuras (0 $\le$ m $\ll$ |U|) mediante una función aritmética de transformación h: U $\rightarrow$ \{0, 1, ..., m - 1\}.\par
+\subsection*{2.4.1 Especificación genérica}
+\addcontentsline{toc}{subsection}{2.4.1 Especificación genérica}
+El TAD Diccionario / Tabla Hash parametriza el tipo de clave K, el tipo de valor asociado V y el funtor de dispersión H. Sus operaciones abstractas fundamentales son:\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{insert(k, v) / put(k, v): }Si la clave k no existe en el diccionario, inserta el par (k, v); si k ya existe, actualiza su valor asociado a v. Tiempo promedio $\Theta$(1).
+  \item \textbf{search(k) / find(k): }Calcula el índice base i = h(k) y devuelve un puntero o referencia al valor v asociado a la clave k, o nullptr / end() si k no pertenece a la tabla. Tiempo promedio $\Theta$(1).
+  \item \textbf{erase(k) / remove(k): }Suprime el par cuya clave es k de la estructura, preservando la alcanzabilidad de las demás claves que hayan colisionado en la misma secuencia. Tiempo promedio $\Theta$(1).
+\end{itemize}
+\subsection*{2.4.2 Función hash}
+\addcontentsline{toc}{subsection}{2.4.2 Función hash}
+Una función hash ideal debe ser determinista (si k$_1$ = k$_2$ entonces h(k$_1$) = h(k$_2$)), evaluable en tiempo constante $\Theta$(1) (o proporcional a la longitud de la clave en cadenas) y satisfacer la Hipótesis de Dispersión Uniforme Simple (SUHA): toda clave k $\in$ U tiene la misma probabilidad 1/m de proyectarse sobre cualquiera de las m ranuras de la tabla, independientemente de las demás claves.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Método de la División: }Define h(k) = k mod m. Para evitar patrones periódicos cuando las claves comparten factores comunes en base 2 o base 10, se elige m como un número primo alejado de potencias exactas de 2.
+  \item \textbf{2. Método de la Multiplicación (Knuth): }Define h(k) = $\lfloor$m $\cdot$ ((k $\cdot$ A) mod 1)$\rfloor$, donde 0 < A < 1 es una constante irracional. El valor óptimo demostrado por Knuth es la conjugada áurea A = ($\sqrt{}$5 - 1)/2 $\approx$ 0.6180339887 (representado en enteros de 64 bits como el multiplicador de Fibonacci 11400714819323198485ULL).
+  \item \textbf{3. Dispersión Polinomial para Cadenas (Rolling Hash / FNV-1a): }Interpreta una cadena S = c$_0$c$_1$...c\_\{L-1\} como un polinomio evaluado mediante la regla de Horner en una base prima p (típicamente p = 31 o 131): h(S) = ($\sum$ c$_i$ $\cdot$ p\textasciicircum{}(L-1-i)) mod m.
+  \item \textbf{4. Hashing Universal (Carter \& Wegman): }Elige aleatoriamente la función hash al inicio de la ejecución dentro de la familia H\_\{p,m\} = \{ h\_\{a,b\}(k) = ((a$\cdot$k + b) mod p) mod m : a $\in$ [1, p-1], b $\in$ [0, p-1] \}, garantizando que para cualquier par de claves distintas la probabilidad de colisión sea $\le$ 1/m incluso frente a entradas adversarias.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Funciones Hash Profesionales: Multiplicación de Fibonacci, Polinomial de Horner y Universal}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <string>
+#include <cstdint>
+
+// 1. Hashing de Multiplicacion de Fibonacci (Knuth) para claves enteras de 64 bits
+std::size_t hashFibonacci64(uint64_t clave, std::size_t bitsSalida) {
+    // 2^64 / phi = 11400714819323198485ULL
+    constexpr uint64_t MULTIPLICADOR_AUREO = 11400714819323198485ULL;
+    return static_cast<std::size_t>((clave * MULTIPLICADOR_AUREO) >> (64 - bitsSalida));
+}
+
+// 2. Hashing Polinomial (Regla de Horner con primo 131) para cadenas std::string
+std::size_t hashPolinomialCadena(const std::string& s, std::size_t m) {
+    uint64_t acumulador = 0;
+    constexpr uint64_t BASE_PRIMA = 131;
+    for (unsigned char c : s) {
+        acumulador = (acumulador * BASE_PRIMA + c) % m;
+    }
+    return static_cast<std::size_t>(acumulador);
+}
+
+// 3. Hashing Universal h_{a,b}(k) = ((a*k + b) mod p) mod m (Primo de Mersenne p = 2^31 - 1)
+std::size_t hashUniversal(uint64_t k, uint64_t a, uint64_t b, std::size_t m) {
+    constexpr uint64_t PRIMO_MERSENNE = 2147483647ULL; // 2^31 - 1
+    return static_cast<std::size_t>(((a * k + b) % PRIMO_MERSENNE) % m);
+}
+
+int main() {
+    std::cout << "Fibonacci Hash (clave=20261117, m=1024): " << hashFibonacci64(20261117ULL, 10) << "\n";
+    std::cout << "Polinomial Hash ('ESCOM-IPN', m=997)   : " << hashPolinomialCadena("ESCOM-IPN", 997) << "\n";
+    std::cout << "Universal Hash (clave=42, m=997)       : " << hashUniversal(42, 314159, 271828, 997) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Desplazamiento de bits en Fibonacci Hashing: }Al multiplicar clave por MULTIPLICADOR\_AUREO en aritmética modular de 64 bits, los bits más significativos del producto mezclan todos los bits de entrada; el desplazamiento >> (64 - bitsSalida) extrae el índice en 2 ciclos de reloj sin usar la costosa instrucción de división entera.
+  \item \textbf{Sensibilidad al orden en hashPolinomialCadena: }A diferencia de sumar códigos ASCII (donde los anagramas 'ROMA' y 'AMOR' colisionan siempre), el esquema de Horner pondera cada posición por potencias de 131, erradicando colisiones por permutación de caracteres.
+\end{itemize}
+\subsection*{2.4.3 Resolución de colisiones}
+\addcontentsline{toc}{subsection}{2.4.3 Resolución de colisiones}
+Dado que la cardinalidad del universo de claves supera el número de ranuras (|U| ≫ m), por el Principio del Palomar de Dirichlet es matemáticamente inevitable que existan claves distintas k$_1$ $\neq$ k$_2$ tales que h(k$_1$) = h(k$_2$). Este fenómeno se denomina colisión (e incluso para m = 365, por la paradoja del cumpleaños basta insertar n = 23 claves aleatorias para superar el 50\% de probabilidad de colisión).\par
+Nota terminológica importante para el programa de estudios IPN: En la literatura hispana (Joyanes Aguilar; Aho, Hopcroft \& Ullman) coexisten dos nomenclaturas según el criterio adoptado: (1) Las Tablas Hash Cerradas (o de Direccionamiento Abierto / Open Addressing) almacenan todos los elementos dentro del propio arreglo fijo de tamaño m, resolviendo colisiones mediante secuencias de sondeo (lineal, cuadrático o doble dispersión) sin usar punteros ni memoria externa; (2) Las Tablas Hash Abiertas (o de Encadenamiento Separado / Separate Chaining) permiten que la tabla crezca abiertamente fuera del arreglo principal haciendo que cada celda apunte a una lista enlazada dinámica con todas las claves que colisionaron en ese índice.\par
+\subsection*{2.4.4 Tablas hash cerradas (Direccionamiento abierto / Sondeo)}
+\addcontentsline{toc}{subsection}{2.4.4 Tablas hash cerradas (Direccionamiento abierto / Sondeo)}
+En una tabla hash cerrada (Open Addressing), cada celda del arreglo almacena directamente un registro y un marcador de estado (VACIA, OCUPADA, BORRADA). Ante una colisión en h(k), se explora la secuencia de posiciones h(k, i) = (h$_1$(k) + f(i)) mod m para i = 0, 1, ..., m - 1:\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Sondeo Lineal (Linear Probing): }f(i) = i. Posee óptima localidad en caché L1, pero sufre Agrupamiento Primario (Primary Clustering): bloques contiguos de celdas ocupadas crecen como avalancha aumentando la longitud de búsqueda.
+  \item \textbf{Sondeo Cuadrático (Quadratic Probing): }f(i) = c$_1$$\cdot$i + c$_2$$\cdot$i$^2$ (o f(i) = i$^2$). Elimina el agrupamiento primario (dejando solo agrupamiento secundario leve). Si m es primo y $\alpha$ < 0.5, garantiza encontrar siempre una celda vacía.
+  \item \textbf{Doble Dispersión (Double Hashing): }f(i) = i $\cdot$ h$_2$(k), donde la segunda función hash h$_2$(k) $\neq$ 0 es coprima con m (por ejemplo, h$_2$(k) = R - (k mod R) con R primo menor que m). Produce m$^2$ secuencias de sondeo distintas, eliminando el agrupamiento primario y secundario.
+  \item \textbf{Eliminación Perezosa (Lazy Deletion / Tombstones): }Al eliminar una clave no se puede marcar la celda como VACIA porque truncaría la búsqueda de claves insertadas posteriormente tras colisionar con ella; se marca como BORRADA (Tombstone), reutilizable en futuras inserciones.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Tabla Hash Cerrada con Doble Dispersión (Double Hashing) y Eliminación Perezosa (Tombstones)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <optional>
+#include <stdexcept>
+
+template <typename K, typename V>
+class TablaHashCerrada {
+private:
+    enum class Estado { VACIA, OCUPADA, BORRADA };
+    struct Celda {
+        K clave{};
+        V valor{};
+        Estado estado = Estado::VACIA;
+    };
+
+    std::vector<Celda> tabla_;
+    std::size_t n_ = 0;
+    static constexpr std::size_t M_PRIMO = 11; // Capacidad prima
+    static constexpr std::size_t R_PRIMO = 7;  // Primo auxiliar R < M para h2
+
+    std::size_t h1(const K& k) const noexcept { return static_cast<std::size_t>(k) % M_PRIMO; }
+    std::size_t h2(const K& k) const noexcept { return R_PRIMO - (static_cast<std::size_t>(k) % R_PRIMO); }
+
+public:
+    TablaHashCerrada() : tabla_(M_PRIMO) {}
+
+    bool insertar(const K& k, const V& v) {
+        if (n_ >= M_PRIMO) return false;
+        std::size_t base = h1(k), paso = h2(k);
+        int primeraBorrada = -1;
+
+        for (std::size_t i = 0; i < M_PRIMO; ++i) {
+            std::size_t idx = (base + i * paso) % M_PRIMO;
+            if (tabla_[idx].estado == Estado::OCUPADA && tabla_[idx].clave == k) {
+                tabla_[idx].valor = v; // Actualiza clave existente
+                return true;
+            }
+            if (tabla_[idx].estado == Estado::BORRADA && primeraBorrada == -1) {
+                primeraBorrada = static_cast<int>(idx); // Recuerda la primera lapida disponible
+            }
+            if (tabla_[idx].estado == Estado::VACIA) {
+                std::size_t destino = (primeraBorrada != -1) ? static_cast<std::size_t>(primeraBorrada) : idx;
+                tabla_[destino] = {k, v, Estado::OCUPADA};
+                ++n_;
+                return true;
+            }
+        }
+        if (primeraBorrada != -1) {
+            tabla_[primeraBorrada] = {k, v, Estado::OCUPADA};
+            ++n_;
+            return true;
+        }
+        return false;
+    }
+
+    std::optional<V> buscar(const K& k) const {
+        std::size_t base = h1(k), paso = h2(k);
+        for (std::size_t i = 0; i < M_PRIMO; ++i) {
+            std::size_t idx = (base + i * paso) % M_PRIMO;
+            if (tabla_[idx].estado == Estado::VACIA) return std::nullopt; // Parada inmediata
+            if (tabla_[idx].estado == Estado::OCUPADA && tabla_[idx].clave == k) {
+                return tabla_[idx].valor;
+            }
+            // Si es BORRADA, continua el sondeo sin interrumpir la cadena
+        }
+        return std::nullopt;
+    }
+
+    bool eliminar(const K& k) {
+        std::size_t base = h1(k), paso = h2(k);
+        for (std::size_t i = 0; i < M_PRIMO; ++i) {
+            std::size_t idx = (base + i * paso) % M_PRIMO;
+            if (tabla_[idx].estado == Estado::VACIA) return false;
+            if (tabla_[idx].estado == Estado::OCUPADA && tabla_[idx].clave == k) {
+                tabla_[idx].estado = Estado::BORRADA; // Marca Tombstone
+                --n_;
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+int main() {
+    TablaHashCerrada<int, std::string> th;
+    th.insertar(10, "Diez");
+    th.insertar(21, "Veintiuno"); // 21 % 11 == 10 (Colisiona con 10, resuelve por h2)
+    th.eliminar(10);              // Deja Tombstone en 10 sin romper la busqueda de 21
+    auto res = th.buscar(21);
+    std::cout << "Busqueda de 21 tras borrar 10: " << (res ? *res : "No hallado") << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Garantía de recorrido completo por coprimalidad: }Como M\_PRIMO = 11 es primo y h$_2$(k) $\in$ [1, 7] nunca es cero ni múltiplo de 11, mcd(h$_2$(k), 11) = 1. Esto garantiza que la progresión (base + i$\cdot$paso) mod 11 visite las 11 ranuras sin caer en ciclos prematuros.
+  \item \textbf{Reciclaje inteligente de lápidas (primeraBorrada): }Durante insertar, si se atraviesa una celda BORRADA se guarda su índice pero se sigue sondeando hasta verificar que k no exista más adelante; luego se reutiliza primeraBorrada evitando degradar el factor de carga.
+\end{itemize}
+\subsection*{2.4.5 Tablas hash abiertas (Encadenamiento separado / Separate Chaining)}
+\addcontentsline{toc}{subsection}{2.4.5 Tablas hash abiertas (Encadenamiento separado / Separate Chaining)}
+En una tabla hash abierta (Separate Chaining), el arreglo principal consta de m punteros a listas enlazadas dinámicas (cubetas o buckets). Todas las claves que se proyectan al mismo índice i = h(k) se insertan en la lista enlazada T[i]. Admite factores de carga $\alpha$ = n/m > 1 y la eliminación física es directa mediante borrado de nodo en la lista, aplicando redimensionamiento dinámico (Rehashing) cuando $\alpha$ supera un umbral (típicamente $\alpha$\_max = 0.75 o 1.0).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Tabla Hash Abierta (Separate Chaining) con Rehashing Automático Dinámico}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <list>
+#include <utility>
+#include <functional>
+
+template <typename K, typename V>
+class TablaHashAbierta {
+private:
+    std::vector<std::list<std::pair<K, V>>> cubetas_;
+    std::size_t n_ = 0;
+    double factorCargaMax_ = 0.75;
+
+    std::size_t indiceCubeta(const K& k, std::size_t m) const {
+        return std::hash<K>{}(k) % m;
+    }
+
+    void rehash(std::size_t nuevaCapacidad) {
+        std::vector<std::list<std::pair<K, V>>> nuevaTabla(nuevaCapacidad);
+        for (const auto& lista : cubetas_) {
+            for (const auto& par : lista) {
+                std::size_t nuevoIdx = indiceCubeta(par.first, nuevaCapacidad);
+                nuevaTabla[nuevoIdx].push_back(par);
+            }
+        }
+        cubetas_ = std::move(nuevaTabla);
+    }
+
+public:
+    explicit TablaHashAbierta(std::size_t mInicial = 7) : cubetas_(mInicial) {}
+
+    double factorCarga() const noexcept {
+        return static_cast<double>(n_) / static_cast<double>(cubetas_.size());
+    }
+
+    void insertar(const K& k, const V& v) {
+        if (factorCarga() >= factorCargaMax_) {
+            rehash(cubetas_.size() * 2 + 1); // Duplica capacidad y reubica en O(n + m)
+        }
+        auto& lista = cubetas_[indiceCubeta(k, cubetas_.size())];
+        for (auto& par : lista) {
+            if (par.first == k) {
+                par.second = v;
+                return;
+            }
+        }
+        lista.emplace_back(k, v);
+        ++n_;
+    }
+
+    V* buscar(const K& k) {
+        auto& lista = cubetas_[indiceCubeta(k, cubetas_.size())];
+        for (auto& par : lista) {
+            if (par.first == k) return &par.second;
+        }
+        return nullptr;
+    }
+
+    bool eliminar(const K& k) {
+        auto& lista = cubetas_[indiceCubeta(k, cubetas_.size())];
+        for (auto it = lista.begin(); it != lista.end(); ++it) {
+            if (it->first == k) {
+                lista.erase(it);
+                --n_;
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+int main() {
+    TablaHashAbierta<std::string, int> edades;
+    edades.insertar("Joel", 20);
+    edades.insertar("Ana", 22);
+    edades.insertar("Luis", 21);
+    if (int* e = edades.buscar("Joel")) {
+        std::cout << "Edad de Joel: " << *e << " (Factor de carga: " << edades.factorCarga() << ")\n";
+    }
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Control automático del factor de carga (rehash): }Cuando $\alpha$ = n/m alcanza 0.75, el método rehash construye un nuevo vector de 2m + 1 cubetas y recalcula indiceCubeta para cada elemento. Aunque un rehash individual toma $\Theta$(n + m), ocurre tras $\Omega$(n) inserciones, preservando tiempo amortizado O(1).
+\end{itemize}
+\subsection*{2.4.6 Nociones de complejidad de las operaciones}
+\addcontentsline{toc}{subsection}{2.4.6 Nociones de complejidad de las operaciones}
+El parámetro crítico de rendimiento en toda tabla hash es el factor de carga $\alpha$ = n / m (donde n es el número de claves almacenadas y m el número de cubetas). Bajo la hipótesis de dispersión uniforme simple (Knuth, TAOCP Vol. 3), el número esperado de comparaciones en una búsqueda sin éxito (U\_$\alpha$) y con éxito (S\_$\alpha$) está gobernado por las siguientes cotas exactas:\par
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.222\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.138\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Esquema de Resolución} & \textbf{\color{ipnguinda}Búsqueda Sin Éxito E[U\_$\alpha$]} & \textbf{\color{ipnguinda}Búsqueda Con Éxito E[S\_$\alpha$]} & \textbf{\color{ipnguinda}Peor Caso Absoluto} & \textbf{\color{ipnguinda}Rango Óptimo de $\alpha$} \\
+\midrule
+\textbf{Encadenamiento Separado} & 1 + $\alpha$ & 1 + ($\alpha$ / 2) & $\Theta$(n) (todas colisionan) & 0 $\le$ $\alpha$ $\le$ 1.0 \\
+\addlinespace[3pt]
+\textbf{Sondeo Lineal} & $1/2$ $\cdot$ (1 + 1 / (1 - $\alpha$)$^2$) & $1/2$ $\cdot$ (1 + 1 / (1 - $\alpha$)) & $\Theta$(n) & 0 $\le$ $\alpha$ $\le$ 0.65 \\
+\addlinespace[3pt]
+\textbf{Doble Dispersión} & 1 / (1 - $\alpha$) & (1 / $\alpha$) $\cdot$ ln(1 / (1 - $\alpha$)) & $\Theta$(n) & 0 $\le$ $\alpha$ $\le$ 0.75 \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{2.4.7 Implementaciones y aplicaciones}
+\addcontentsline{toc}{subsection}{2.4.7 Implementaciones y aplicaciones}
+En la biblioteca estándar de C++ (STL), std::unordered\_map y std::unordered\_set implementan tablas hash abiertas con encadenamiento separado. Sus aplicaciones industriales abarcan: (1) Tablas de Símbolos en compiladores e intérpretes para asociar identificadores con sus atributos de tipo y dirección de memoria en O(1); (2) índices Hash en motores de bases de datos y sistemas de caché en memoria (Redis, Memcached); (3) deduplicación de registros y conteo de frecuencias en Ciencia de Datos; y (4) verificación de integridad criptográfica y filtros de Bloom.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Tabla de Símbolos de un Compilador e Identificación de Pares con Suma Objetivo en $\Theta$(n)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+
+struct SimboloCompilador {
+    std::string tipoDato;
+    int ambitoLexico;
+    std::size_t desplazamientoMemoria;
+};
+
+// Aplicacion Algoritmica: Resolver 2-Sum en Theta(n) usando Tabla Hash (frente a Theta(n^2) por fuerza bruta)
+std::pair<int, int> encontrarParSuma(const std::vector<int>& A, int objetivo) {
+    std::unordered_map<int, int> vistoEnIndice; // Mapea: valor -> indice donde aparecio
+    vistoEnIndice.reserve(A.size());            // Pre-asigna cubetas evitando rehashes intermedios
+
+    for (int i = 0; i < static_cast<int>(A.size()); ++i) {
+        int complemento = objetivo - A[i];
+        auto it = vistoEnIndice.find(complemento); // Consulta en tiempo esperado Theta(1)
+        if (it != vistoEnIndice.end()) {
+            return {it->second, i};
+        }
+        vistoEnIndice[A[i]] = i;
+    }
+    return {-1, -1};
+}
+
+int main() {
+    std::unordered_map<std::string, SimboloCompilador> tablaSimbolos;
+    tablaSimbolos["contador_global"] = {"int64_t", 0, 0x0010};
+    tablaSimbolos["tasa_aprendizaje"] = {"double", 1, 0x0018};
+
+    std::cout << "Simbolo 'tasa_aprendizaje' -> Tipo: "
+              << tablaSimbolos["tasa_aprendizaje"].tipoDato << "\n";
+
+    std::vector<int> nums = {2, 7, 11, 15};
+    auto [i, j] = encontrarParSuma(nums, 18);
+    std::cout << "Indices que suman 18: [" << i << ", " << j << "]\n"; // [1, 2] (7 + 11 = 18)
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Reducción de complejidad de $\Theta$(n$^2$) a $\Theta$(n): }En encontrarParSuma, en lugar de buscar el complemento con un segundo bucle anidado, se consulta vistoEnIndice.find(complemento) en O(1) promedio. El método reserve(A.size()) pre-calcula el número primo de cubetas necesario, eliminando cualquier costo de rehash durante el recorrido.
+\end{itemize}
+\newpage
+\noindent\colorbox{ipnguinda!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{6pt}\textbf{\color{ipnblue}\small UNIDAD TEMÁTICA III}\\[4pt]\textbf{\color{ipnguinda}\LARGE Estructuras de Datos No Lineales}\\[6pt]\textbf{\color{ipnblue}Unidad de Competencia (Programa Oficial IPN ISC-2020):} \textit{Manipula estructuras de datos no lineales a partir de sus aplicaciones, complejidad y representaciones.}\vspace{6pt}}}\vspace{10pt}
+\addcontentsline{toc}{part}{UNIDAD TEMÁTICA III: Estructuras de Datos No Lineales}
+\section*{3.1 Árboles binarios}
+\addcontentsline{toc}{section}{3.1 Árboles binarios}
+Un Árbol Binario (Binary Tree) se define recursivamente como una estructura jerárquica finita T de nodos que o bien está vacía (T = $\emptyset$), o bien consta de un nodo distinguido denominado raíz r conectado mediante aristas dirigidas a dos subárboles binarios disjuntos ordenados: el subárbol izquierdo T\_L y el subárbol derecho T\_R. A diferencia de un árbol ordenado general, en un árbol binario cada nodo posee grado de salida máximo 2 y se distingue posicionalmente entre un hijo único izquierdo y un hijo único derecho.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Terminología y métricas estructurales: }La profundidad de un nodo u es la longitud (número de aristas) del camino único desde la raíz r hasta u (la raíz tiene profundidad 0). La altura h(u) es la longitud del camino más largo desde u hasta una hoja descendiente (una hoja tiene altura 0 y un árbol vacío altura -1).
+  \item \textbf{Árbol Binario Lleno (Full / Proper Binary Tree): }Todo nodo interno posee exactamente 0 o 2 hijos. Satisface el invariante fundamental L = I + 1 (el número de hojas L excede exactamente en 1 al número de nodos internos I).
+  \item \textbf{Árbol Binario Perfecto (Perfect Binary Tree): }Todas las hojas se sitúan al mismo nivel h y todo nodo interno tiene grado 2. Cuenta exactamente con n = 2\textasciicircum{}(h+1) - 1 nodos totales y 2\textasciicircum{}h hojas, por lo que su altura es h = $\lfloor$log$_2$ n$\rfloor$.
+  \item \textbf{Árbol Binario Completo (Complete Binary Tree): }Todos los niveles están completamente llenos salvo posiblemente el último nivel h, cuyos nodos se agrupan de manera contigua de izquierda a derecha sin huecos intermedios.
+\end{itemize}
+\subsection*{3.1.1 Transformación de árboles generales a binarios}
+\addcontentsline{toc}{subsection}{3.1.1 Transformación de árboles generales a binarios}
+En un árbol general (m-ario), un nodo puede tener un número arbitrario y variable de hijos k, lo cual complica reservar un arreglo fijo de k punteros por nodo. El Isomorfismo de Knuth permite transformar cualquier árbol general (o bosque ordenado de árboles generales) en un único Árbol Binario equivalente utilizando exactamente dos punteros por nodo mediante la representación Hijo Izquierdo – Hermano Derecho (Left-Child, Right-Sibling / LCRS):\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Regla 1 (Enlace Hijo Izquierdo — primerHijo): }El puntero izquierdo del nodo u en el árbol binario apunta exclusivamente al primer hijo (el más izquierdo) de u en el árbol general original.
+  \item \textbf{Regla 2 (Enlace Hermano Derecho — siguienteHermano): }El puntero derecho del nodo u en el árbol binario apunta al hermano inmediato a la derecha de u que comparte el mismo padre en el árbol general.
+  \item \textbf{Regla 3 (Eliminación de enlaces verticales redundantes): }Se suprimen las aristas directas entre el padre y sus hijos segundo, tercero, ..., k-ésimo, los cuales quedan encadenados secuencialmente a través de los punteros derechos del primer hijo.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Transformación de un Árbol General n-ario a Árbol Binario (Representación LCRS de Knuth)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <string>
+
+// Nodo de un Arbol General (grado arbitrario mediante std::vector)
+struct NodoGeneral {
+    std::string clave;
+    std::vector<NodoGeneral*> hijos;
+    explicit NodoGeneral(std::string c) : clave(std::move(c)) {}
+};
+
+// Nodo Binario Isomorfo (Representacion Hijo Izquierdo - Hermano Derecho)
+struct NodoBinarioLCRS {
+    std::string clave;
+    NodoBinarioLCRS* hijoIzquierdo = nullptr;   // Primer hijo en el arbol general
+    NodoBinarioLCRS* hermanoDerecho = nullptr;  // Siguiente hermano del mismo padre
+    explicit NodoBinarioLCRS(std::string c) : clave(std::move(c)) {}
+};
+
+// Algoritmo recursivo de transformacion en tiempo lineal Theta(n)
+NodoBinarioLCRS* transformarGeneralABinario(const NodoGeneral* raizGen) {
+    if (!raizGen) return nullptr;
+    auto* nodoBin = new NodoBinarioLCRS(raizGen->clave);
+
+    if (!raizGen->hijos.empty()) {
+        // 1. El primer hijo general se convierte en el hijo izquierdo binario
+        nodoBin->hijoIzquierdo = transformarGeneralABinario(raizGen->hijos[0]);
+
+        // 2. Los hijos restantes se encadenan como hermanos derechos sucesivos
+        NodoBinarioLCRS* actualBin = nodoBin->hijoIzquierdo;
+        for (std::size_t i = 1; i < raizGen->hijos.size(); ++i) {
+            actualBin->hermanoDerecho = transformarGeneralABinario(raizGen->hijos[i]);
+            actualBin = actualBin->hermanoDerecho;
+        }
+    }
+    return nodoBin;
+}
+
+void imprimirBinarioLCRS(const NodoBinarioLCRS* u, int prof = 0) {
+    if (!u) return;
+    std::cout << std::string(prof * 2, ' ') << "- " << u->clave << "\n";
+    imprimirBinarioLCRS(u->hijoIzquierdo, prof + 1);  // Baja un nivel jerarquico
+    imprimirBinarioLCRS(u->hermanoDerecho, prof);     // Permanece en el mismo nivel
+}
+
+int main() {
+    auto* dirRaiz = new NodoGeneral("Raiz_IPN");
+    auto* escom   = new NodoGeneral("ESCOM");
+    auto* upiiz   = new NodoGeneral("UPIIZ");
+    auto* upiiap  = new NodoGeneral("UPIIAP");
+    escom->hijos.push_back(new NodoGeneral("ISC"));
+    escom->hijos.push_back(new NodoGeneral("LCD"));
+    dirRaiz->hijos = {escom, upiiz, upiiap};
+
+    NodoBinarioLCRS* arbolBin = transformarGeneralABinario(dirRaiz);
+    imprimirBinarioLCRS(arbolBin);
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Biyección estructural sin pérdida de información: }En transformarGeneralABinario, cada nodo del árbol general se visita exactamente una vez en $\Theta$(n). El bucle for encadena los hermanos i = 1..k-1 sobre el puntero hermanoDerecho, reduciendo el consumo de punteros a exactamente 2n punteros (de los cuales n + 1 son nullptr).
+\end{itemize}
+\subsection*{3.1.2 Recorridos en un árbol binario}
+\addcontentsline{toc}{subsection}{3.1.2 Recorridos en un árbol binario}
+Recorrer un árbol binario consiste en visitar sistemáticamente cada uno de sus n nodos exactamente una vez en tiempo lineal $\Theta$(n), linealizando la jerarquía bidimensional en una secuencia unidimensional:\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Preorden (Raíz – Izquierdo – Derecho | NLR): }Visita primero la raíz r, luego recorre en preorden T\_L y finalmente T\_R. Produce la notación prefija (Polaca) en árboles de expresiones y permite clonar o serializar la topología del árbol.
+  \item \textbf{Inorden (Izquierdo – Raíz – Derecho | LNR): }Recorre primero T\_L, visita la raíz r y luego recorre T\_R. En un Árbol Binario de Búsqueda (ABB), el recorrido Inorden enumera las claves en orden estrictamente ascendente.
+  \item \textbf{Postorden (Izquierdo – Derecho – Raíz | LRN): }Recorre primero T\_L, luego T\_R y visita al final la raíz r. Es indispensable cuando el procesamiento del padre depende de sus hijos (liberación de memoria delete, cálculo de alturas o evaluación postfija RPN).
+  \item \textbf{Recorrido en Amplitud o por Niveles (Level-Order / BFS): }Visita los nodos nivel por nivel de arriba hacia abajo y de izquierda a derecha auxiliándose de una cola FIFO.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Recorridos Recursivos (Preorden, Inorden, Postorden) e Iterativos (Pila Explícita y Cola por Niveles)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stack>
+#include <queue>
+
+struct NodoArbol {
+    int dato;
+    NodoArbol* izq;
+    NodoArbol* der;
+    explicit NodoArbol(int d, NodoArbol* i = nullptr, NodoArbol* r = nullptr)
+        : dato(d), izq(i), der(r) {}
+};
+
+// 1. Recorridos en Profundidad Recursivos: Tiempo Theta(n), Espacio Theta(h) en Call Stack
+void preorden(const NodoArbol* r) {
+    if (!r) return;
+    std::cout << r->dato << " ";
+    preorden(r->izq);
+    preorden(r->der);
+}
+
+void inorden(const NodoArbol* r) {
+    if (!r) return;
+    inorden(r->izq);
+    std::cout << r->dato << " ";
+    inorden(r->der);
+}
+
+void postorden(const NodoArbol* r) {
+    if (!r) return;
+    postorden(r->izq);
+    postorden(r->der);
+    std::cout << r->dato << " ";
+}
+
+// 2. Inorden Iterativo con Pila Explicita: Evita desbordamiento de pila del sistema
+void inordenIterativo(const NodoArbol* raiz) {
+    std::stack<const NodoArbol*> pila;
+    const NodoArbol* actual = raiz;
+    while (actual != nullptr || !pila.empty()) {
+        while (actual != nullptr) { // Desciende al extremo mas izquierdo apilando ancestros
+            pila.push(actual);
+            actual = actual->izq;
+        }
+        actual = pila.top();
+        pila.pop();
+        std::cout << actual->dato << " "; // Visita el nodo central
+        actual = actual->der;             // Transiciona al subarbol derecho
+    }
+}
+
+// 3. Recorrido por Niveles (Amplitud) con Cola FIFO: Tiempo Theta(n), Espacio O(w) anchura maxima
+void recorridoPorNiveles(const NodoArbol* raiz) {
+    if (!raiz) return;
+    std::queue<const NodoArbol*> cola;
+    cola.push(raiz);
+    while (!cola.empty()) {
+        const NodoArbol* u = cola.front();
+        cola.pop();
+        std::cout << u->dato << " ";
+        if (u->izq) cola.push(u->izq);
+        if (u->der) cola.push(u->der);
+    }
+}
+
+int main() {
+    auto* raiz = new NodoArbol(4,
+                    new NodoArbol(2, new NodoArbol(1), new NodoArbol(3)),
+                    new NodoArbol(6, new NodoArbol(5), new NodoArbol(7)));
+    std::cout << "Preorden        : "; preorden(raiz); std::cout << "\n";
+    std::cout << "Inorden (Iter.) : "; inordenIterativo(raiz); std::cout << "\n";
+    std::cout << "Postorden       : "; postorden(raiz); std::cout << "\n";
+    std::cout << "Por Niveles BFS : "; recorridoPorNiveles(raiz); std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Complejidad temporal y espacial: }En los cuatro recorridos cada arista se atraviesa un número constante de veces, garantizando tiempo exacto $\Theta$(n). El espacio auxiliar en profundidad está acotado por la altura del árbol $\Theta$(h) (donde log$_2$ n $\le$ h < n), mientras que en el recorrido por niveles está acotado por el ancho máximo del árbol w $\le$ $\lceil$n/2$\rceil$.
+\end{itemize}
+\subsection*{3.1.3 Árbol binario de búsqueda}
+\addcontentsline{toc}{subsection}{3.1.3 Árbol binario de búsqueda}
+Un Árbol Binario de Búsqueda (ABB o Binary Search Tree, BST) es un árbol binario que satisface el Invariante de Orden de Búsqueda Binaria en todo nodo x: para todo nodo y en el subárbol izquierdo de x se cumple clave(y) < clave(x), y para todo nodo z en el subárbol derecho de x se cumple clave(x) < clave(z).\par
+La operación más delicada en un ABB es la eliminación de un nodo z (Algoritmo de Hibbard), que distingue tres casos estructurales: (Caso 1: Hoja) si z carece de hijos, se libera directamente y se anula el enlace de su padre; (Caso 2: Un solo hijo) si z tiene un único hijo, se puentea al padre de z directamente con dicho hijo; (Caso 3: Dos hijos) se localiza el sucesor inorden de z (el nodo con la clave mínima en el subárbol derecho z->der), se copia su clave en z y se elimina recursivamente el sucesor inorden (que por definición carece de hijo izquierdo y cae en el Caso 1 o Caso 2).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Árbol Binario de Búsqueda (ABB / BST) Completo con Eliminación de Hibbard (3 Casos)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+
+template <typename T>
+class ArbolBinarioBusqueda {
+private:
+    struct Nodo {
+        T clave;
+        Nodo* izq = nullptr;
+        Nodo* der = nullptr;
+        explicit Nodo(const T& k) : clave(k) {}
+    };
+    Nodo* raiz_ = nullptr;
+
+    Nodo* insertarRec(Nodo* r, const T& k) {
+        if (!r) return new Nodo(k);
+        if (k < r->clave)      r->izq = insertarRec(r->izq, k);
+        else if (k > r->clave) r->der = insertarRec(r->der, k);
+        return r;
+    }
+
+    Nodo* encontrarMinimo(Nodo* r) const {
+        while (r && r->izq != nullptr) r = r->izq;
+        return r;
+    }
+
+    Nodo* eliminarRec(Nodo* r, const T& k) {
+        if (!r) return nullptr;
+        if (k < r->clave) {
+            r->izq = eliminarRec(r->izq, k);
+        } else if (k > r->clave) {
+            r->der = eliminarRec(r->der, k);
+        } else {
+            // Caso 1 y Caso 2: Cero o un solo hijo
+            if (!r->izq) {
+                Nodo* temp = r->der;
+                delete r;
+                return temp;
+            }
+            if (!r->der) {
+                Nodo* temp = r->izq;
+                delete r;
+                return temp;
+            }
+            // Caso 3: Dos hijos -> Reemplazar por el Sucesor Inorden (minimo del subarbol derecho)
+            Nodo* sucesor = encontrarMinimo(r->der);
+            r->clave = sucesor->clave;
+            r->der = eliminarRec(r->der, sucesor->clave);
+        }
+        return r;
+    }
+
+    void inordenRec(const Nodo* r) const {
+        if (!r) return;
+        inordenRec(r->izq);
+        std::cout << r->clave << " ";
+        inordenRec(r->der);
+    }
+
+public:
+    void insertar(const T& k) { raiz_ = insertarRec(raiz_, k); }
+    void eliminar(const T& k) { raiz_ = eliminarRec(raiz_, k); }
+    bool buscar(const T& k) const {
+        Nodo* actual = raiz_;
+        while (actual) {
+            if (k == actual->clave) return true;
+            actual = (k < actual->clave) ? actual->izq : actual->der;
+        }
+        return false;
+    }
+    void imprimirOrdenado() const { inordenRec(raiz_); std::cout << "\n"; }
+};
+
+int main() {
+    ArbolBinarioBusqueda<int> abb;
+    for (int x : {50, 30, 70, 20, 40, 60, 80}) abb.insertar(x);
+    abb.eliminar(50); // Elimina la raiz con dos hijos (promueve al sucesor inorden 60)
+    abb.imprimirOrdenado(); // 20 30 40 60 70 80
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Preservación del invariante en el Caso 3 de Hibbard: }El sucesor inorden s = encontrarMinimo(r->der) es estrictamente mayor que todo el subárbol izquierdo de r y menor que cualquier otro nodo restante en el subárbol derecho de r. Por tanto, sustituir r->clave por s->clave preserva el invariante global de búsqueda binaria en O(h).
+\end{itemize}
+\subsection*{3.1.4 Árbol balanceado rojo-negro}
+\addcontentsline{toc}{subsection}{3.1.4 Árbol balanceado rojo-negro}
+Un ABB ordinario degenera en una lista lineal de altura $\Theta$(n) si las claves se insertan en orden monótono. Un Árbol Rojo-Negro (Red-Black Tree, inventado por Rudolf Bayer como árbol B simétrico y formalizado por Guibas y Sedgewick) es un ABB autobalanceado donde cada nodo almacena un bit de color (ROJO o NEGRO) sujeto a cinco invariantes estructurales (Cormen et al.):\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Propiedad de Color: }Todo nodo es o bien ROJO o bien NEGRO.
+  \item \textbf{2. Propiedad de la Raíz: }La raíz del árbol es siempre NEGRA.
+  \item \textbf{3. Propiedad de las Hojas Externas: }Toda hoja nula (centinela NIL) se considera de color NEGRO.
+  \item \textbf{4. Propiedad Roja (Sin Rojos Adyacentes): }Si un nodo es ROJO, entonces sus dos hijos son obligatoriamente NEGROS (no pueden existir dos nodos rojos consecutivos en ningún camino).
+  \item \textbf{5. Propiedad de Altura Negra (Black-Height): }Para cada nodo u, todos los caminos simples desde u hasta cualquier hoja descendiente NIL contienen exactamente el mismo número de nodos negros, denotado bh(u).
+\end{itemize}
+Teorema de Cota de Altura: Un árbol Rojo-Negro con n nodos internos tiene una altura máxima h $\le$ 2 log$_2$(n + 1). Esto garantiza que buscar, insertar y eliminar se ejecuten en tiempo O(log n) en el peor de los casos. El rebalanceo tras insertar un nuevo nodo ROJO emplea dos operaciones primitivas en tiempo $\Theta$(1) —Rotación Izquierda y Rotación Derecha— junto con recoloreo en a lo sumo 2 rotaciones por inserción.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Árbol Balanceado Rojo-Negro (Red-Black Tree / Variante LLRB de Sedgewick) con Rotaciones en $\Theta$(1)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <algorithm>
+
+template <typename T>
+class ArbolRojoNegro {
+private:
+    static constexpr bool ROJO = true;
+    static constexpr bool NEGRO = false;
+
+    struct Nodo {
+        T clave;
+        Nodo* izq = nullptr;
+        Nodo* der = nullptr;
+        bool color = ROJO; // Todo nodo nuevo ingresa inicialmente como ROJO
+        explicit Nodo(const T& k) : clave(k) {}
+    };
+
+    Nodo* raiz_ = nullptr;
+
+    bool esRojo(const Nodo* x) const noexcept { return x != nullptr && x->color == ROJO; }
+
+    // Rotacion a la izquierda en Theta(1) preservando el orden Inorden
+    Nodo* rotarIzquierda(Nodo* h) noexcept {
+        Nodo* x = h->der;
+        h->der = x->izq;
+        x->izq = h;
+        x->color = h->color;
+        h->color = ROJO;
+        return x;
+    }
+
+    // Rotacion a la derecha en Theta(1) preservando el orden Inorden
+    Nodo* rotarDerecha(Nodo* h) noexcept {
+        Nodo* x = h->izq;
+        h->izq = x->der;
+        x->der = h;
+        x->color = h->color;
+        h->color = ROJO;
+        return x;
+    }
+
+    // Cambio de colores ( division de un 4-nodo temporal ascendente ) en Theta(1)
+    void invertirColores(Nodo* h) noexcept {
+        h->color = ROJO;
+        h->izq->color = NEGRO;
+        h->der->color = NEGRO;
+    }
+
+    Nodo* insertarRec(Nodo* h, const T& k) {
+        if (!h) return new Nodo(k);
+        if (k < h->clave)      h->izq = insertarRec(h->izq, k);
+        else if (k > h->clave) h->der = insertarRec(h->der, k);
+
+        // Restauracion de los invariantes Rojo-Negro en el ascenso recursivo:
+        if (esRojo(h->der) && !esRojo(h->izq))     h = rotarIzquierda(h);
+        if (esRojo(h->izq) && esRojo(h->izq->izq)) h = rotarDerecha(h);
+        if (esRojo(h->izq) && esRojo(h->der))      invertirColores(h);
+        return h;
+    }
+
+    int alturaRec(const Nodo* h) const noexcept {
+        if (!h) return 0;
+        return 1 + std::max(alturaRec(h->izq), alturaRec(h->der));
+    }
+
+public:
+    void insertar(const T& k) {
+        raiz_ = insertarRec(raiz_, k);
+        raiz_->color = NEGRO; // Invariante 2: La raiz es siempre NEGRA
+    }
+    int altura() const noexcept { return alturaRec(raiz_); }
+};
+
+int main() {
+    ArbolRojoNegro<int> rbt;
+    // Insertar 1..15 en orden creciente produciria altura 15 en un ABB normal; aqui se autobalancea:
+    for (int i = 1; i <= 15; ++i) rbt.insertar(i);
+    std::cout << "Altura del Arbol Rojo-Negro tras insertar 1..15 en orden: " << rbt.altura() << "\n"; // 4
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Mecanismo de las rotaciones locales en $\Theta$(1): }rotarIzquierda y rotarDerecha reasignan únicamente tres punteros sin alterar el recorrido Inorden del árbol. Al insertar 15 claves en orden estrictamente creciente (el peor caso para un ABB simple, que tendría altura 15), el árbol Rojo-Negro mantiene una altura perfectamente balanceada igual a 4.
+\end{itemize}
+\subsection*{3.1.5 Montículo (Binary Heap)}
+\addcontentsline{toc}{subsection}{3.1.5 Montículo (Binary Heap)}
+Un Montículo Binario (Binary Heap) es un árbol binario completo que satisface la Propiedad de Orden de Montículo: en un Max-Heap, para todo nodo i distinto de la raíz se cumple A[padre(i)] $\ge$ A[i] (el elemento máximo reside en la raíz); en un Min-Heap se cumple A[padre(i)] $\le$ A[i].\par
+Al ser un árbol binario completo sin huecos, se representa implícitamente dentro de un arreglo contiguo A[0..n-1] sin utilizar punteros, calculando la navegación familiar mediante desplazamientos aritméticos en $\Theta$(1): padre(i) = $\lfloor$(i - 1)/2$\rfloor$, hijoIzq(i) = 2i + 1 e hijoDer(i) = 2i + 2. Además, el procedimiento de construcción de Floyd (Build-Heap) transforma un arreglo desordenado en un montículo válido ejecutando siftDown desde el último nodo interno $\lfloor$n/2$\rfloor$ - 1 hasta 0 en tiempo lineal exacto $\Theta$(n).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Montículo Binario Máximo (Max-Heap), Construcción Lineal de Floyd $\Theta$(n) y HeapSort In-Place}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <utility>
+#include <stdexcept>
+
+template <typename T>
+class MaxHeap {
+private:
+    std::vector<T> A_;
+
+    void siftUp(int i) {
+        while (i > 0) {
+            int p = (i - 1) / 2;
+            if (A_[p] >= A_[i]) break;
+            std::swap(A_[p], A_[i]);
+            i = p;
+        }
+    }
+
+    static void siftDown(std::vector<T>& arr, int n, int i) {
+        while (true) {
+            int mayor = i;
+            int izq = 2 * i + 1;
+            int der = 2 * i + 2;
+            if (izq < n && arr[izq] > arr[mayor]) mayor = izq;
+            if (der < n && arr[der] > arr[mayor]) mayor = der;
+            if (mayor == i) break;
+            std::swap(arr[i], arr[mayor]);
+            i = mayor;
+        }
+    }
+
+public:
+    MaxHeap() = default;
+
+    // Constructor de Floyd (Build-Max-Heap) en tiempo lineal estricto Theta(n)
+    explicit MaxHeap(std::vector<T> datos) : A_(std::move(datos)) {
+        int n = static_cast<int>(A_.size());
+        for (int i = n / 2 - 1; i >= 0; --i) {
+            siftDown(A_, n, i);
+        }
+    }
+
+    void insertar(const T& x) {
+        A_.push_back(x);
+        siftUp(static_cast<int>(A_.size()) - 1); // Flotar en O(log n)
+    }
+
+    T extraerMax() {
+        if (A_.empty()) throw std::underflow_error("Heap vacio");
+        T maximo = A_.front();
+        A_.front() = A_.back();
+        A_.pop_back();
+        if (!A_.empty()) siftDown(A_, static_cast<int>(A_.size()), 0); // Hundir en O(log n)
+        return maximo;
+    }
+
+    // Algoritmo HeapSort In-Place: Tiempo Theta(n log n) en peor caso, Memoria Auxiliar Theta(1)
+    static void heapSort(std::vector<T>& arr) {
+        int n = static_cast<int>(arr.size());
+        for (int i = n / 2 - 1; i >= 0; --i) siftDown(arr, n, i); // Fase 1: Build-Heap Theta(n)
+        for (int fin = n - 1; fin > 0; --fin) {                   // Fase 2: n-1 extracciones O(n log n)
+            std::swap(arr[0], arr[fin]);
+            siftDown(arr, fin, 0);
+        }
+    }
+};
+
+int main() {
+    std::vector<int> v = {12, 11, 13, 5, 6, 7, 99, 2};
+    MaxHeap<int>::heapSort(v);
+    for (int x : v) std::cout << x << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Demostración de la complejidad lineal $\Theta$(n) de Build-Heap: }Un árbol completo de n nodos contiene a lo sumo $\lceil$n / 2\textasciicircum{}(h+1)$\rceil$ nodos de altura h. El trabajo total de siftDown está acotado por $\sum$\_\{h=0\}\textasciicircum{}\{$\lfloor$log n$\rfloor$\} $\lceil$n / 2\textasciicircum{}(h+1)$\rceil$ $\cdot$ O(h) = O(n $\cdot$ $\sum$ h / 2\textasciicircum{}h) = O(2n) = $\Theta$(n).
+\end{itemize}
+\subsection*{3.1.6 Implementaciones y aplicaciones}
+\addcontentsline{toc}{subsection}{3.1.6 Implementaciones y aplicaciones}
+Los árboles binarios sustentan: (1) los Árboles de Sintaxis Abstracta (AST) y Árboles de Expresión en compiladores, donde las hojas son operandos y los nodos internos operadores; (2) la compresión entrópica sin pérdida mediante Árboles de Huffman; y (3) los diccionarios ordenados std::map y std::set de la biblioteca estándar de C++.\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Construcción y Evaluación Recursiva en Postorden de un Árbol Binario de Expresión Aritmética}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+
+struct NodoExpr {
+    std::string token;
+    NodoExpr* izq = nullptr;
+    NodoExpr* der = nullptr;
+    explicit NodoExpr(std::string t, NodoExpr* i = nullptr, NodoExpr* d = nullptr)
+        : token(std::move(t)), izq(i), der(d) {}
+};
+
+bool esOperador(const std::string& t) {
+    return t == "+" || t == "-" || t == "*" || t == "/";
+}
+
+// Construye el Arbol de Expresion en Theta(n) a partir de una cadena en notacion Postfija (RPN)
+NodoExpr* construirArbolExpresion(const std::string& rpn) {
+    std::stack<NodoExpr*> pila;
+    std::istringstream iss(rpn);
+    std::string tok;
+    while (iss >> tok) {
+        if (!esOperador(tok)) {
+            pila.push(new NodoExpr(tok));
+        } else {
+            NodoExpr* der = pila.top(); pila.pop();
+            NodoExpr* izq = pila.top(); pila.pop();
+            pila.push(new NodoExpr(tok, izq, der));
+        }
+    }
+    return pila.top();
+}
+
+// Evalua el Arbol de Expresion mediante recorrido Postorden (LRN) en Theta(n)
+double evaluarArbol(const NodoExpr* r) {
+    if (!r->izq && !r->der) return std::stod(r->token);
+    double valIzq = evaluarArbol(r->izq);
+    double valDer = evaluarArbol(r->der);
+    if (r->token == "+") return valIzq + valDer;
+    if (r->token == "-") return valIzq - valDer;
+    if (r->token == "*") return valIzq * valDer;
+    return valIzq / valDer;
+}
+
+int main() {
+    // Expresion: (10 + 5) * (8 - 3) -> Postfija: "10 5 + 8 3 - *" = 75
+    NodoExpr* ast = construirArbolExpresion("10 5 + 8 3 - *");
+    std::cout << "Resultado del Arbol de Expresion: " << evaluarArbol(ast) << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Dualidad recorrido-notación en el AST: }Sobre el árbol construido por construirArbolExpresion, un recorrido Preorden recupera la notación prefija (* + 10 5 - 8 3), Inorden con paréntesis recupera la infija ((10 + 5) * (8 - 3)), y evaluarArbol ejecuta un Postorden bottom-up evaluando primero ambos subárboles hijos antes de aplicar el operador de la raíz.
+\end{itemize}
+\subsection*{3.1.7 Nociones de complejidad de las implementaciones}
+\addcontentsline{toc}{subsection}{3.1.7 Nociones de complejidad de las implementaciones}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.208\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Estructura Arbórea} & \textbf{\color{ipnguinda}Búsqueda (Prom. / Peor)} & \textbf{\color{ipnguinda}Inserción (Prom. / Peor)} & \textbf{\color{ipnguinda}Eliminación (Prom. / Peor)} & \textbf{\color{ipnguinda}Altura h del Árbol} \\
+\midrule
+\textbf{ABB Sin Balancear (BST)} & $\Theta$(log n) / $\Theta$(n) & $\Theta$(log n) / $\Theta$(n) & $\Theta$(log n) / $\Theta$(n) & $\lfloor$log$_2$ n$\rfloor$ $\le$ h $\le$ n - 1 \\
+\addlinespace[3pt]
+\textbf{Árbol Rojo-Negro (RBT)} & $\Theta$(log n) / $\Theta$(log n) & $\Theta$(log n) / $\Theta$(log n) & $\Theta$(log n) / $\Theta$(log n) & h $\le$ 2 log$_2$(n + 1) \\
+\addlinespace[3pt]
+\textbf{Árbol AVL} & $\Theta$(log n) / $\Theta$(log n) & $\Theta$(log n) / $\Theta$(log n) & $\Theta$(log n) / $\Theta$(log n) & h < 1.44 log$_2$(n + 2) \\
+\addlinespace[3pt]
+\textbf{Montículo Binario (Heap)} & O(n) (o $\Theta$(1) extremo) & O(log n) / O(1) amort. & O(log n) (extraer extremo) & h = $\lfloor$log$_2$ n$\rfloor$ exacto \\
+\addlinespace[3pt]
+\textbf{Árbol B / B+ (Orden m)} & $\Theta$(log$_m$ n) bloques & $\Theta$(log$_m$ n) bloques & $\Theta$(log$_m$ n) bloques & h $\le$ $\lceil$log\_\{$\lceil$m/2$\rceil$\}((n+1)/2)$\rceil$ \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\subsection*{3.1.8 Otros tipos de árboles}
+\addcontentsline{toc}{subsection}{3.1.8 Otros tipos de árboles}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Árboles AVL (Adelson-Velsky \& Landis, 1962): }ABB estrictamente balanceado en altura donde para todo nodo u el factor de equilibrio FE(u) = altura(u->der) - altura(u->izq) pertenece al conjunto \{-1, 0, +1\}. Ofrece búsquedas más rápidas que los árboles Rojo-Negro gracias a su menor cota de altura (1.44 log$_2$ n), a cambio de poder requerir hasta O(log n) rotaciones en eliminaciones.
+  \item \textbf{2. Árboles Multicamino Balanceados (Árboles B y B+): }Generalizan los ABB para almacenamiento secundario (sistemas de archivos NTFS/ext4 e índices de bases de datos SQL). Un Árbol B de orden m almacena entre $\lceil$m/2$\rceil$ - 1 y m - 1 claves ordenadas por nodo (ajustado al tamaño de página de disco de 4 KB – 16 KB) y mantiene todas las hojas a la misma profundidad. En un Árbol B+, todos los registros de datos residen en las hojas enlazadas secuencialmente para acelerar consultas por rango.
+  \item \textbf{3. Árboles de Prefijos (Tries / Árboles Digitales): }Estructura especializada para diccionarios de cadenas donde cada arista representa un carácter del alfabeto Σ. Permite buscar, insertar y autocompletar prefijos de longitud L en tiempo $\Theta$(L), independientemente del número total n de palabras almacenadas.
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Árbol de Prefijos (Trie) para Autocompletado y Búsqueda Lexicográfica en Tiempo $\Theta$(L)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+class TriePrefijos {
+private:
+    struct NodoTrie {
+        std::unordered_map<char, NodoTrie*> hijos;
+        bool esFinDePalabra = false;
+    };
+    NodoTrie* raiz_ = new NodoTrie();
+
+public:
+    // Insercion en tiempo Theta(L), donde L es la longitud de la palabra
+    void insertar(const std::string& palabra) {
+        NodoTrie* actual = raiz_;
+        for (char c : palabra) {
+            if (actual->hijos.find(c) == actual->hijos.end()) {
+                actual->hijos[c] = new NodoTrie();
+            }
+            actual = actual->hijos[c];
+        }
+        actual->esFinDePalabra = true;
+    }
+
+    bool buscarPalabraExacta(const std::string& palabra) const {
+        const NodoTrie* actual = raiz_;
+        for (char c : palabra) {
+            auto it = actual->hijos.find(c);
+            if (it == actual->hijos.end()) return false;
+            actual = it->second;
+        }
+        return actual->esFinDePalabra;
+    }
+
+    bool existePrefijo(const std::string& prefijo) const {
+        const NodoTrie* actual = raiz_;
+        for (char c : prefijo) {
+            auto it = actual->hijos.find(c);
+            if (it == actual->hijos.end()) return false;
+            actual = it->second;
+        }
+        return true;
+    }
+};
+
+int main() {
+    TriePrefijos diccionario;
+    diccionario.insertar("algoritmo");
+    diccionario.insertar("algebra");
+    std::cout << "Prefijo 'alg' existe   : " << (diccionario.existePrefijo("alg") ? "SI" : "NO") << "\n";
+    std::cout << "Palabra 'alg' completa : " << (diccionario.buscarPalabraExacta("alg") ? "SI" : "NO") << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Independencia respecto al cardinal n del diccionario: }Tanto buscarPalabraExacta como existePrefijo realizan exactamente L transiciones de puntero para una cadena de L caracteres, logrando complejidad temporal $\Theta$(L) aun si el diccionario almacena millones de términos.
+\end{itemize}
+\section*{3.2 Grafos (Graphs)}
+\addcontentsline{toc}{section}{3.2 Grafos (Graphs)}
+Un Grafo se define formalmente como un par ordenado G = (V, E), donde V es un conjunto finito no vacío de elementos denominados vértices o nodos (con cardinalidad |V| = V), y E es un conjunto de pares de vértices denominados aristas o arcos (con cardinalidad |E| = E) que modelan relaciones binarias arbitrarias entre los elementos de V.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Grafo No Dirigido vs. Dirigido (Digrafo): }En un grafo no dirigido las aristas son pares no ordenados \{u, v\} (relación simétrica, |E| $\le$ V(V - 1)/2); en un grafo dirigido cada arco es un par ordenado (u, v) que parte del origen u hacia el destino v (|E| $\le$ V(V - 1)).
+  \item \textbf{Grafo Ponderado (Weighted Graph): }Asocia a cada arista e $\in$ E un peso numérico real w(e) $\in$ $\mathbb{R}$ que representa costo, latencia, distancia o capacidad.
+  \item \textbf{Grado de un vértice y Lema del Apretón de Manos (Euler): }En un grafo no dirigido, el grado deg(u) es el número de aristas incidentes en u, satisfaciendo $\sum$\_\{u $\in$ V\} deg(u) = 2|E|. En un digrafo se distingue entre grado de entrada indeg(u) y grado de salida outdeg(u), cumpliéndose $\sum$ indeg(u) = $\sum$ outdeg(u) = |E|.
+  \item \textbf{Densidad del grafo: }Un grafo es disperso (sparse) si |E| = O(V) (como redes viales, eléctricas o la Web), y es denso (dense) si |E| = $\Theta$(V$^2$).
+\end{itemize}
+\subsection*{3.2.1 Representaciones matriciales y basadas en listas}
+\addcontentsline{toc}{subsection}{3.2.1 Representaciones matriciales y basadas en listas}
+Existen dos estructuras de datos canónicas para materializar un grafo G = (V, E) en memoria principal:\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Matriz de Adyacencia: }Arreglo bidimensional A de dimensión V $\times$ V donde A[u][v] = w(u, v) (o 1 en grafos sin peso) si (u, v) $\in$ E, y $\infty$ (o 0) si (u, v) $\notin$ E. Permite verificar la existencia de una arista (u, v) en tiempo constante $\Theta$(1), pero consume invariablemente $\Theta$(V$^2$) de memoria y exige $\Theta$(V) para iterar sobre los vecinos de un vértice u.
+  \item \textbf{2. Lista de Adyacencia: }Arreglo de V contenedores dinámicos (std::vector<std::vector<Arista>>), donde Adj[u] almacena exclusivamente los vértices adyacentes a u. Requiere memoria óptima $\Theta$(V + E) y recorre los vecinos de u en tiempo proporcional a su grado $\Theta$(deg(u)), siendo el estándar en grafos dispersos.
+\end{itemize}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.291\linewidth}>{\raggedright\arraybackslash}p{0.305\linewidth}>{\raggedright\arraybackslash}p{0.305\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Operación / Métrica sobre G = (V, E)} & \textbf{\color{ipnguinda}Matriz de Adyacencia (V $\times$ V)} & \textbf{\color{ipnguinda}Lista de Adyacencia (Arreglo de Listas)} \\
+\midrule
+\textbf{Complejidad Espacial en Memoria} & $\Theta$(V$^2$) fijo (óptimo para grafos densos) & $\Theta$(V + E) proporcional al grafo (óptimo en dispersos) \\
+\addlinespace[3pt]
+\textbf{Verificar si existe arista (u, v)} & $\Theta$(1) acceso directo A[u][v] & O(deg(u)) recorrido de la lista Adj[u] \\
+\addlinespace[3pt]
+\textbf{Iterar sobre todos los vecinos de u} & $\Theta$(V) escaneo completo de la fila u & $\Theta$(deg(u)) recorre solo aristas incidentes reales \\
+\addlinespace[3pt]
+\textbf{Insertar una nueva arista (u, v)} & $\Theta$(1) & $\Theta$(1) al final de Adj[u] \\
+\addlinespace[3pt]
+\textbf{Recorrido completo del grafo (BFS/DFS)} & $\Theta$(V$^2$) & $\Theta$(V + E) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Representación Dual de un Grafo Ponderado: Matriz de Adyacencia y Lista de Adyacencia en C++}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <limits>
+
+struct Arista {
+    int destino;
+    int peso;
+};
+
+class GrafoDual {
+private:
+    int V_;
+    static constexpr int INF = std::numeric_limits<int>::max() / 2;
+    std::vector<std::vector<int>> matrizAdy_;       // Representacion Matricial Theta(V^2)
+    std::vector<std::vector<Arista>> listaAdy_;     // Representacion en Listas Theta(V + E)
+
+public:
+    explicit GrafoDual(int vertices)
+        : V_(vertices),
+          matrizAdy_(vertices, std::vector<int>(vertices, INF)),
+          listaAdy_(vertices) {
+        for (int i = 0; i < V_; ++i) matrizAdy_[i][i] = 0;
+    }
+
+    void agregarArista(int u, int v, int peso, bool dirigido = false) {
+        matrizAdy_[u][v] = peso;
+        listaAdy_[u].push_back({v, peso});
+        if (!dirigido) {
+            matrizAdy_[v][u] = peso;
+            listaAdy_[v].push_back({u, peso});
+        }
+    }
+
+    bool existeAristaMatriz(int u, int v) const noexcept {
+        return matrizAdy_[u][v] != INF && u != v; // Consulta instantanea en Theta(1)
+    }
+
+    void imprimirVecinosLista(int u) const {
+        std::cout << "Vecinos de " << u << " (en Theta(deg(u))): ";
+        for (const auto& a : listaAdy_[u]) {
+            std::cout << "->[v=" << a.destino << ", w=" << a.peso << "] ";
+        }
+        std::cout << "\n";
+    }
+};
+
+int main() {
+    GrafoDual g(4);
+    g.agregarArista(0, 1, 10);
+    g.agregarArista(0, 2, 25);
+    g.agregarArista(1, 3, 5);
+    g.imprimirVecinosLista(0);
+    std::cout << "Existe arista (0,2) en O(1): " << (g.existeAristaMatriz(0, 2) ? "SI" : "NO") << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Selección de std::vector sobre std::list para Listas de Adyacencia: }En ingeniería de algoritmos moderna, cada lista Adj[u] se implementa como std::vector<Arista> en lugar de nodos enlazados individuales para maximizar la localidad en caché L1 durante los recorridos BFS, DFS y Dijkstra.
+\end{itemize}
+\subsection*{3.2.2 Búsqueda en amplitud (BFS — Breadth-First Search)}
+\addcontentsline{toc}{subsection}{3.2.2 Búsqueda en amplitud (BFS — Breadth-First Search)}
+La Búsqueda en Amplitud (BFS) explora el grafo por capas concéntricas desde un vértice fuente s. Apoyándose en una cola FIFO, descubre todos los vértices situados a una distancia de k aristas de s antes de descubrir cualquier vértice a distancia k + 1. Como consecuencia fundamental, en grafos no ponderados (o con pesos uniformes), el árbol BFS inducido por los punteros padre[v] calcula las rutas más cortas exactas desde s hacia todos los vértices alcanzables en tiempo lineal $\Theta$(V + E).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Búsqueda en Amplitud (BFS) con Cálculo de Distancias Mínimas y Reconstrucción de Camino}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+struct ResultadoBFS {
+    std::vector<int> distancia;
+    std::vector<int> padre;
+};
+
+// Complejidad Temporal: Theta(V + E) | Complejidad Espacial: Theta(V)
+ResultadoBFS busquedaEnAmplitudBFS(const std::vector<std::vector<int>>& adj, int origen) {
+    int V = static_cast<int>(adj.size());
+    ResultadoBFS res{std::vector<int>(V, -1), std::vector<int>(V, -1)};
+    std::queue<int> cola;
+
+    res.distancia[origen] = 0;
+    cola.push(origen);
+
+    while (!cola.empty()) {
+        int u = cola.front();
+        cola.pop();
+
+        for (int v : adj[u]) {
+            if (res.distancia[v] == -1) { // Vertice aun no visitado (Color BLANCO -> GRIS)
+                res.distancia[v] = res.distancia[u] + 1;
+                res.padre[v] = u;
+                cola.push(v);
+            }
+        }
+    }
+    return res;
+}
+
+std::vector<int> reconstruirCamino(int origen, int destino, const std::vector<int>& padre) {
+    std::vector<int> camino;
+    for (int v = destino; v != -1; v = padre[v]) {
+        camino.push_back(v);
+    }
+    std::reverse(camino.begin(), camino.end());
+    if (camino.empty() || camino.front() != origen) return {};
+    return camino;
+}
+
+int main() {
+    std::vector<std::vector<int>> grafo = {
+        {1, 2},    // 0 conectado con 1, 2
+        {0, 3, 4}, // 1 conectado con 0, 3, 4
+        {0, 4},    // 2 conectado con 0, 4
+        {1, 5},    // 3 conectado con 1, 5
+        {1, 2, 5}, // 4 conectado con 1, 2, 5
+        {3, 4}     // 5 conectado con 3, 4
+    };
+    auto bfs = busquedaEnAmplitudBFS(grafo, 0);
+    auto ruta = reconstruirCamino(0, 5, bfs.padre);
+    std::cout << "Distancia minima de 0 a 5: " << bfs.distancia[5] << " saltos | Ruta: ";
+    for (int v : ruta) std::cout << v << " ";
+    std::cout << "\n";
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Invariante de monotonicidad en la cola FIFO: }En todo instante, la cola contiene vértices cuyas distancias difieren a lo sumo en 1 unidad (d[u] $\le$ d[v] $\le$ d[u] + 1). Cada vértice se encola a lo sumo una vez (cuando distancia[v] == -1), garantizando tiempo $\Theta$(V + E).
+\end{itemize}
+\subsection*{3.2.3 Búsqueda en profundidad (DFS — Depth-First Search)}
+\addcontentsline{toc}{subsection}{3.2.3 Búsqueda en profundidad (DFS — Depth-First Search)}
+La Búsqueda en Profundidad (DFS) avanza tan profundo como sea posible a lo largo de cada camino antes de retroceder (backtrack) al último vértice con aristas inexploradas. Al colorear los vértices en tres estados —BLANCO (no visitado), GRIS (descubierto y actualmente activo en la pila de recursión) y NEGRO (completamente explorado)— y registrar los tiempos de descubrimiento d[u] y finalización f[u], el Teorema de los Paréntesis de Tarjan permite clasificar las aristas (árbol, retroceso/back-edge, avance y cruce), detectar ciclos dirigidos y obtener el Ordenamiento Topológico de un DAG invirtiendo el orden de finalización f[u].\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Búsqueda en Profundidad (DFS) con Clasificación de Estados, Detección de Ciclos y Orden Topológico}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+enum class Color { BLANCO, GRIS, NEGRO };
+
+class AnalizadorDFS {
+private:
+    const std::vector<std::vector<int>>& adj_;
+    std::vector<Color> color_;
+    std::vector<int> ordenTopologico_;
+    bool tieneCiclo_ = false;
+
+    void dfsVisitar(int u) {
+        color_[u] = Color::GRIS; // Entra en el marco de activacion actual
+        for (int v : adj_[u]) {
+            if (color_[v] == Color::BLANCO) {
+                dfsVisitar(v); // Arista de Arbol (Tree Edge)
+            } else if (color_[v] == Color::GRIS) {
+                // Arista de Retroceso (Back-Edge) hacia un ancestro activo -> Ciclo detectado!
+                tieneCiclo_ = true;
+            }
+        }
+        color_[u] = Color::NEGRO; // Finaliza la exploracion del subarbol de u
+        ordenTopologico_.push_back(u);
+    }
+
+public:
+    explicit AnalizadorDFS(const std::vector<std::vector<int>>& adj)
+        : adj_(adj), color_(adj.size(), Color::BLANCO) {}
+
+    bool ejecutarYOrdenarTopologicamente(std::vector<int>& salidaOrden) {
+        for (int u = 0; u < static_cast<int>(adj_.size()); ++u) {
+            if (color_[u] == Color::BLANCO) dfsVisitar(u);
+        }
+        if (tieneCiclo_) return false;
+        std::reverse(ordenTopologico_.begin(), ordenTopologico_.end());
+        salidaOrden = ordenTopologico_;
+        return true;
+    }
+};
+
+int main() {
+    // Seriacion de materias IPN: 0(Fund. Prog) -> 1(Algoritmos y ED) -> 3(Analisis de Alg.)
+    //                            2(Mat. Discretas) -> 1(Algoritmos y ED)
+    std::vector<std::vector<int>> dag = {{1}, {3}, {1}, {}};
+    AnalizadorDFS dfs(dag);
+    std::vector<int> orden;
+    if (dfs.ejecutarYOrdenarTopologicamente(orden)) {
+        std::cout << "Orden Topologico valido del DAG: ";
+        for (int u : orden) std::cout << u << " ";
+        std::cout << "\n";
+    }
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Teorema de aciclicidad por aristas de retroceso: }Un grafo dirigido G es acíclico (DAG) si y solo si un recorrido DFS de G no produce ninguna arista de retroceso (es decir, nunca encuentra un vecino v en estado Color::GRIS). Al apilar cada vértice al tornarse NEGRO e invertir el vector al final, toda arista (u, v) cumple que u precede a v en $\Theta$(V + E).
+\end{itemize}
+\subsection*{3.2.4 Distancia más corta}
+\addcontentsline{toc}{subsection}{3.2.4 Distancia más corta}
+El problema del camino más corto en un grafo ponderado G = (V, E, w) consiste en encontrar una ruta p = $\langle$v$_0$, v$_1$, ..., v$_k$$\rangle$ entre un origen u y un destino v que minimice la suma de los pesos de sus aristas w(p) = $\sum$ w(v$_i$$_{-}$$_1$, v$_i$). Su operación elemental es la Relajación de una arista (u, v): si d[v] > d[u] + w(u, v), se actualiza d[v] $\leftarrow$ d[u] + w(u, v) y padre[v] $\leftarrow$ u.\par
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{1. Algoritmo de Dijkstra (Pesos no negativos w(u, v) $\ge$ 0): }Estrategia voraz (Greedy) que mantiene una cola de prioridad de mínimo con las distancias tentativas d[v]. En cada paso extrae el vértice u con menor d[u] y relaja sus aristas salientes en O((V + E) log V).
+  \item \textbf{2. Algoritmo de Bellman-Ford (Admite pesos negativos): }Relaja sistemáticamente la totalidad de las |E| aristas a lo largo de |V| - 1 pasadas completas en tiempo $\Theta$(V $\cdot$ E), y ejecuta una pasada adicional |V|-ésima para detectar ciclos de peso negativo alcanzables.
+  \item \textbf{3. Algoritmo de Floyd-Warshall (Todos los pares): }Resuelve el camino mínimo entre todos los pares de vértices (i, j) mediante programación dinámica D⁽$^k$⁾[i][j] = min(D⁽$^k$$^-$$^1$⁾[i][j], D⁽$^k$$^-$$^1$⁾[i][k] + D⁽$^k$$^-$$^1$⁾[k][j]) en tiempo $\Theta$(V$^3$) y espacio $\Theta$(V$^2$).
+\end{itemize}
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Algoritmo de Dijkstra con Min-Heap O((V + E) log V) y Algoritmo de Bellman-Ford O(V$\cdot$E)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <limits>
+
+struct AristaPond { int destino; int peso; };
+constexpr int INF_DIST = std::numeric_limits<int>::max() / 2;
+
+// 1. Algoritmo de Dijkstra con Cola de Prioridad (Min-Heap) para grafos con w(u,v) >= 0
+std::vector<int> dijkstra(const std::vector<std::vector<AristaPond>>& adj, int origen) {
+    int V = static_cast<int>(adj.size());
+    std::vector<int> dist(V, INF_DIST);
+    // Par en Min-Heap: (distancia_acumulada, vertice)
+    using Par = std::pair<int, int>;
+    std::priority_queue<Par, std::vector<Par>, std::greater<Par>> pq;
+
+    dist[origen] = 0;
+    pq.push({0, origen});
+
+    while (!pq.empty()) {
+        auto [dActual, u] = pq.top();
+        pq.pop();
+
+        // Descarte perezoso de entradas obsoletas en el monticulo
+        if (dActual > dist[u]) continue;
+
+        for (const auto& arista : adj[u]) {
+            int v = arista.destino;
+            int nuevoCosto = dist[u] + arista.peso;
+            // Operacion de Relajacion (Relax)
+            if (nuevoCosto < dist[v]) {
+                dist[v] = nuevoCosto;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+    return dist;
+}
+
+// 2. Algoritmo de Bellman-Ford: Soporta aristas negativas y detecta ciclos negativos en Theta(V*E)
+bool bellmanFord(int V, int origen, const std::vector<std::tuple<int, int, int>>& aristas,
+                 std::vector<int>& dist) {
+    dist.assign(V, INF_DIST);
+    dist[origen] = 0;
+
+    for (int i = 1; i <= V - 1; ++i) {
+        bool huboCambio = false;
+        for (const auto& [u, v, w] : aristas) {
+            if (dist[u] != INF_DIST && dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                huboCambio = true;
+            }
+        }
+        if (!huboCambio) break; // Parada temprana si las distancias ya convergieron
+    }
+    // Verificacion de ciclo negativo en la pasada V-esima
+    for (const auto& [u, v, w] : aristas) {
+        if (dist[u] != INF_DIST && dist[u] + w < dist[v]) return false; // Existe ciclo negativo
+    }
+    return true;
+}
+
+int main() {
+    std::vector<std::vector<AristaPond>> red = {
+        {{1, 4}, {2, 1}}, // 0 -> 1 (4), 0 -> 2 (1)
+        {{3, 1}},         // 1 -> 3 (1)
+        {{1, 2}, {3, 5}}, // 2 -> 1 (2), 2 -> 3 (5)
+        {}
+    };
+    auto d = dijkstra(red, 0);
+    std::cout << "Dijkstra distancia minima 0 -> 3: " << d[3] << "\n"; // 0->2->1->3 = 1+2+1 = 4
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Descarte perezoso en Dijkstra (if (dActual > dist[u]) continue): }Como std::priority\_queue no incluye decrease-key nativo, al relajar una arista se inserta un nuevo par \{dist[v], v\} en O(log E). Cuando la versión antigua emerge de la cola, la guarda dActual > dist[u] la descarta en $\Theta$(1), garantizando que las aristas de cada vértice se relajen una sola vez.
+\end{itemize}
+\subsection*{3.2.5 Implementaciones y aplicaciones}
+\addcontentsline{toc}{subsection}{3.2.5 Implementaciones y aplicaciones}
+Además de los protocolos de enrutamiento de paquetes (OSPF basado en Dijkstra y RIP basado en Bellman-Ford), una de las aplicaciones más importantes de la teoría de grafos es el diseño de redes de costo mínimo mediante un Árbol de Expansión Mínima (Minimum Spanning Tree, MST): dado un grafo conexo no dirigido ponderado G = (V, E, w), hallar un subconjunto acíclico T $\subseteq$ E de |V| - 1 aristas que conecte todos los vértices minimizando w(T) = $\sum$\_\{(u,v)$\in$T\} w(u, v). El Algoritmo de Kruskal ordena las aristas por peso ascendente y agrega cada arista que no forme ciclo apoyándose en una estructura de Conjuntos Disjuntos (Union-Find con compresión de caminos y unión por rango) en tiempo O(E log E).\par
+\vspace{4pt}\noindent\textbf{\color{ipnblue}Implementación Técnica en C++: Árbol de Expansión Mínima (MST) mediante el Algoritmo de Kruskal y Estructura Union-Find (DSU)}\par\vspace{-2pt}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+struct AristaKruskal {
+    int u, v, peso;
+    bool operator<(const AristaKruskal& otra) const noexcept { return peso < otra.peso; }
+};
+
+// Estructura de Conjuntos Disjuntos (Disjoint Set Union) en tiempo casi constante O(alpha(V))
+class UnionFind {
+private:
+    std::vector<int> padre_;
+    std::vector<int> rango_;
+
+public:
+    explicit UnionFind(int n) : padre_(n), rango_(n, 0) {
+        std::iota(padre_.begin(), padre_.end(), 0);
+    }
+
+    int find(int i) {
+        if (padre_[i] != i) {
+            padre_[i] = find(padre_[i]); // Compresion de caminos (Path Compression)
+        }
+        return padre_[i];
+    }
+
+    bool unir(int x, int y) {
+        int raizX = find(x), raizY = find(y);
+        if (raizX == raizY) return false; // Ya estan en la misma componente (formaria ciclo)
+        // Union por rango (Union by Rank)
+        if (rango_[raizX] < rango_[raizY]) padre_[raizX] = raizY;
+        else if (rango_[raizX] > rango_[raizY]) padre_[raizY] = raizX;
+        else { padre_[raizY] = raizX; ++rango_[raizX]; }
+        return true;
+    }
+};
+
+int kruskalMST(int V, std::vector<AristaKruskal>& aristas, std::vector<AristaKruskal>& mstSalida) {
+    std::sort(aristas.begin(), aristas.end()); // O(E log E)
+    UnionFind dsu(V);
+    int costoTotal = 0;
+
+    for (const auto& a : aristas) {
+        if (dsu.unir(a.u, a.v)) {
+            costoTotal += a.peso;
+            mstSalida.push_back(a);
+            if (static_cast<int>(mstSalida.size()) == V - 1) break;
+        }
+    }
+    return costoTotal;
+}
+
+int main() {
+    std::vector<AristaKruskal> redFibra = {
+        {0, 1, 10}, {0, 2, 6}, {0, 3, 5}, {1, 3, 15}, {2, 3, 4}
+    };
+    std::vector<AristaKruskal> mst;
+    int costo = kruskalMST(4, redFibra, mst);
+    std::cout << "Costo total del Arbol de Expansion Minima (MST): " << costo << "\n"; // 4 + 5 + 10 = 19
+    return 0;
+}
+\end{lstlisting}
+\noindent\textbf{\color{ipnguinda}Análisis Técnico y Explicación Profesional del Código:}\par\vspace{-2pt}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Optimalidad casi constante del Union-Find: }Al combinar compresión de caminos en find(i) con unión por rango en unir(x, y), una secuencia de m operaciones sobre V vértices toma tiempo O(m $\cdot$ $\alpha$(V)), donde $\alpha$(V) $\le$ 4 es la inversa de la función de Ackermann de Tarjan. Así, el costo de Kruskal queda dominado únicamente por el ordenamiento inicial de las aristas en O(E log E) = O(E log V).
+\end{itemize}
+\subsection*{3.2.6 Nociones de complejidad de los algoritmos sobre grafos}
+\addcontentsline{toc}{subsection}{3.2.6 Nociones de complejidad de los algoritmos sobre grafos}
+\vspace{4pt}\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.208\linewidth}>{\raggedright\arraybackslash}p{0.235\linewidth}>{\raggedright\arraybackslash}p{0.166\linewidth}>{\raggedright\arraybackslash}p{0.152\linewidth}>{\raggedright\arraybackslash}p{0.138\linewidth}}
+\toprule
+\textbf{\color{ipnguinda}Algoritmo sobre Grafos} & \textbf{\color{ipnguinda}Problema Resuelto / Restricción} & \textbf{\color{ipnguinda}Con Lista de Adyacencia} & \textbf{\color{ipnguinda}Con Matriz de Adyacencia} & \textbf{\color{ipnguinda}Espacio Auxiliar} \\
+\midrule
+\textbf{Búsqueda en Amplitud (BFS)} & Caminos mínimos (Sin peso) & $\Theta$(V + E) & $\Theta$(V$^2$) & $\Theta$(V) \\
+\addlinespace[3pt]
+\textbf{Búsqueda en Profundidad (DFS)} & Ciclos, Orden Topológico, SCC & $\Theta$(V + E) & $\Theta$(V$^2$) & $\Theta$(V) \\
+\addlinespace[3pt]
+\textbf{Dijkstra (con Min-Heap)} & Camino mínimo origen único (w $\ge$ 0) & O((V + E) log V) & O(V$^2$) & $\Theta$(V) \\
+\addlinespace[3pt]
+\textbf{Bellman-Ford} & Camino mínimo (Pesos negativos) & O(V $\cdot$ E) & O(V$^3$) & $\Theta$(V) \\
+\addlinespace[3pt]
+\textbf{Floyd-Warshall} & Caminos mínimos todos los pares & $\Theta$(V$^3$) & $\Theta$(V$^3$) & $\Theta$(V$^2$) \\
+\addlinespace[3pt]
+\textbf{Kruskal (con Union-Find)} & Árbol de Expansión Mínima (MST) & O(E log V) & O(V$^2$ log V) & $\Theta$(V) \\
+\addlinespace[3pt]
+\textbf{Prim (con Min-Heap)} & Árbol de Expansión Mínima (MST) & O((V + E) log V) & O(V$^2$) & $\Theta$(V) \\
+\addlinespace[3pt]
+\bottomrule
+\end{tabular}
+\vspace{6pt}\par
+\section*{Referencias Bibliográficas (Programa Oficial IPN ISC-2020)}
+\addcontentsline{toc}{section}{Referencias Bibliográficas (Programa Oficial IPN ISC-2020)}
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+  \item \textbf{Aho, A. V., Hopcroft, J. E., \& Ullman, J. D. (1999). }Estructuras de datos y algoritmos. Pearson Educación. ISBN: 978-968-444-345-7.
+  \item \textbf{Brass, P. (2008). }Advanced Data Structures. Cambridge University Press. ISBN: 978-0-521-88037-4.
+  \item \textbf{Cormen, T. H., Leiserson, C. E., Rivest, R. L., \& Stein, C. (2009). }Introduction to Algorithms (3rd ed.). The MIT Press. ISBN: 978-0-262-03384-8.
+  \item \textbf{Das, V. V. (2014). }Principles of Data Structures Using C and C++. New Age International. ISBN: 978-81-224-1858-3.
+  \item \textbf{Joyanes Aguilar, L., Sánchez García, L., \& Zahonero Martínez, I. (2007). }Estructura de datos en C++. McGraw-Hill Interamericana. ISBN: 978-84-481-5645-9.
+  \item \textbf{Karumanchi, N. (2016). }Data Structures and Algorithms Made Easy. CareerMonk Publications. ISBN: 978-81-932452-7-9.
+  \item \textbf{Koffman, E. B., \& Wolfgang, P. A. T. (2008). }Estructura de datos con C++: Objetos, abstracciones y diseño. McGraw-Hill. ISBN: 978-970-10-6578-5.
+  \item \textbf{Roughgarden, T. (2018). }Algorithms Illuminated, Part 2: Graph Algorithms and Data Structures. Soundlikeyourself Publishing. ISBN: 978-0-9992829-2-2.
+  \item \textbf{Weiss, M. A. (2013). }Data Structures and Algorithm Analysis in C++ (4th ed.). Pearson. ISBN: 978-0-273-76938-5.
+\end{itemize}
+\end{document}
